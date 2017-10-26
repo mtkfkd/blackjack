@@ -1,0 +1,129 @@
+
+p {
+  margin: 0;
+  padding: 0;
+}
+hr {
+  height: 6px;
+  background: url(http://ibrahimjabbari.com/english/images/hr-12.png) repeat-x 0 0;
+  border: 0;
+  max-width: 1000px;
+}
+
+.container {
+/*  border: 1px solid #333;*/
+  margin: 0 auto;
+  width: 100%;
+}
+
+.handWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+.hand {
+  position: relative;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+  border-radius: 2px;
+  box-shadow: 2px 2px 2px #333;
+  border: 1px solid #333;
+  margin-right: 10px;
+  margin-top: 10px;
+  height: 250px;
+  width: 150px;
+}
+.opphand {
+  position: relative;
+  background: url(img/trump.png);
+  border-radius: 2px;
+  box-shadow: 2px 2px 2px #333;
+  border: 1px solid #333;
+  margin-right: 10px;
+  margin-top: 10px;
+  height: 250px;
+  width: 150px;
+}
+.suit {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  font-size: 26px;
+}
+.handValue {
+  color: #fff;
+  font-size: 50px;
+  margin: 80px 0;
+  text-align: center;
+}
+/*=======================
+btn,result
+=======================*/
+.btn {
+  margin-top: 15px;
+  text-align: center;
+}
+.btn a {
+  background: linear-gradient(to bottom, rgba(239,197,202,1) 0%,rgba(210,75,90,1) 50%,rgba(186,39,55,1) 51%,rgba(241,142,153,1) 100%);
+  border-radius: 4px;
+  color: #fff;
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  height: 40px;
+  margin: 0 auto;
+  padding-top: 10px;
+  text-decoration: none;
+  width: 150px;
+  transition: all 200ms linear;
+}
+.btn a:hover {
+  background: linear-gradient(to bottom, rgba(239,197,202,0.7) 0%,rgba(210,75,90,0.7) 50%,rgba(186,39,55,0.7) 51%,rgba(241,142,153,0.7) 100%);
+  box-shadow: 2px 2px 5px #555;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.total {
+  color: #333;
+  text-align: center;
+}
+.blackjack {
+  background: #333;
+  border-radius: 4px;
+  color: #f45;
+  margin: 10px auto;
+  text-align: center;
+  width: 300px;
+  animation: blackjack 3s linear 0s 1;
+}
+.burst {
+  background: #888;
+  border-radius: 4px;
+  color: #802;
+  margin: 10px auto;
+  text-align: center;
+  width: 300px;
+}
+
+@keyframes blackjack {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(360deg);
+  }
+  50% {
+    transform: scale(2);
+    box-shadow: 2px 2px 4px #555;
+  }
+}
+
+
+/*=======================
+suit
+=======================*/
+
+.heart,
+.diamond {
+  color: #f33;
+}

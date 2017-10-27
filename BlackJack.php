@@ -26,7 +26,7 @@ if(isset($_SESSION['cards']) && !isset($_GET['reset'])){
 if(isset($_GET['hit'])){
   $player[] = array_shift($cards);
 }
-
+//相手の行動
 if(isset($_GET['hit']) || isset($_GET['stand'])) {
   $random = rand(1,3);
   if(sumupHands($opponent) < 15) {
@@ -107,14 +107,32 @@ function sumupHands($hands)
 
 //得点、リザルトメッセージ
 $message = null;
-if($pTotal < 21){
+if($gameend == false && $pTotal < 21 && $oTotal < 21){
   $message = '<h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
+}  elseif($pTotal < 21 && $oTotal === 21) {
+  $message = '<h2 class="oblackjack">相手がBlack Jack!!<br>あなたの負け</h2>' . PHP_EOL;
+  $gameend = true;
 } elseif($pTotal === 21) {
-  $message = '<h1 class="blackjack">Black Jack!!</h2>' . PHP_EOL;
+  $message = '<h1 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
   $gameend = true;
-} elseif($pTotal > 21) {
-  $message = '<h2 class="burst">××Burst××</h2>' . PHP_EOL;
+}  elseif($pTotal === 21 && $oTotal === 21) {
+  $message = '<h1 class="blackjack">両者Black Jack!!<br>Nice Game!!</h2>' . PHP_EOL;
   $gameend = true;
+} elseif($pTotal > 21 && $oTotal < 21) {
+  $message = '<h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
+  $gameend = true;
+} elseif($pTotal > 21 && $oTotal > 21) {
+  $message = '<h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
+  $gameend = true;
+} elseif($pTotal < 21 && $oTotal > 21) {
+  $message = '<h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
+  $gameend = true;
+} elseif($gameend == true && $pTotal < 21 && $oTotal < 21 && $pTotal < $oTotal) {
+  $message = '<h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの負け</h2>' . PHP_EOL;
+} elseif($gameend == true && $pTotal < 21 && $oTotal < 21 && $pTotal == $oTotal) {
+  $message = '<h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
+} elseif($gameend == true && $pTotal < 21 && $oTotal < 21 && $pTotal > $oTotal) {
+  $message = '<h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
 }
 
 //hit,stand,resetボタン
@@ -144,13 +162,24 @@ $_SESSION['opponent'] = $opponent;
   <div class="container">
       <div class="handWrapper">
 <?php
-foreach($opponent as $opponentNum){
-  echo '<div class="handwrap">
-          <div class="opphand">
-            <p class="suit ', $opponentNum['suit'], '"></p>
-            <p class="handValue"></p>
-          </div>
-        </div>';
+if($gameend == false){
+  foreach($opponent as $opponentNum){
+    echo '<div class="handwrap">
+            <div class="opphand">
+              <p class="suit ', $opponentNum['suit'], '"></p>
+              <p class="handValue"></p>
+            </div>
+          </div>';
+  }
+} elseif($gameend == true){
+  foreach($opponent as $opponentNum){
+    echo '<div class="handwrap">
+            <div class="resulthand">
+              <p class="suit ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
+              <p class="handValueRe">', $opponentNum['num'], '</p>
+            </div>
+          </div>';
+  }
 }
 ?>
       </div>
@@ -180,7 +209,6 @@ foreach($player as $playerNum){
     echo $message;
   }
 
-  echo sumupHands($opponent);
   ?>
       </div><!-- /.result -->
     </form>

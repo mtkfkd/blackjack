@@ -99,15 +99,17 @@ $oTotal = sumupHands($opponent);
 function sumupHands($hands)
 {
   $total = null;
+  $ace = null;
   foreach($hands as $card){
     if($card['value']!=1){
       $total += $card['value'];
     } elseif($card['value'] === 1) {
+      $ace +=1;
       $total += $card['value'];
-      if(($total+10) <= 21){
-        $total +=10;
       }
     }
+  if($total <=11 && $ace >=1) {
+    $total += 10;
   }
   return $total;
 }

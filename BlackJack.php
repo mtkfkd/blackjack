@@ -19,8 +19,8 @@ if(isset($_SESSION['cards']) && !isset($_GET['reset'])){
   //手札を2枚引く
   $player[] = array_shift($cards);
   $player[] = array_shift($cards);
-  $opponent[] =array_shift($cards);
-  $opponent[] =array_shift($cards);
+  $opponent[] = array_shift($cards);
+  $opponent[] = array_shift($cards);
 }
 
 if(isset($_GET['hit'])){
@@ -100,7 +100,14 @@ function sumupHands($hands)
 {
   $total = null;
   foreach($hands as $card){
-    $total += $card['value'];
+    if($card['value']!=1){
+      $total += $card['value'];
+    } elseif($card['value'] === 1) {
+      $total += $card['value'];
+      if(($total+10) <= 21){
+        $total +=10;
+      }
+    }
   }
   return $total;
 }
@@ -109,7 +116,7 @@ function sumupHands($hands)
 $message = null;
 if($gameend == false && $pTotal < 21 && $oTotal < 21){
   $message = '<h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
-}  elseif($pTotal < 21 && $oTotal === 21) {
+}  elseif(($pTotal < 21 || $pTotal > 21) && $oTotal === 21) {
   $message = '<h2 class="oblackjack">相手がBlack Jack!!<br>あなたの負け</h2>' . PHP_EOL;
   $gameend = true;
 } elseif($pTotal === 21) {

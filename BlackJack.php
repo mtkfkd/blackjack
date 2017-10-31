@@ -173,21 +173,39 @@ $_SESSION['opponent'] = $opponent;
 <?php
 if($gameend == false){
   foreach($opponent as $opponentNum){
+    if($opponentNum === reset($opponent)) {
+      echo '<div class="handwrap">
+        <div class="hand">
+          <p class="suit ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
+          <p class="handValue">', $opponentNum['num'], '</p>
+        </div>
+      </div>';
+    } else {
     echo '<div class="handwrap">
             <div class="opphand">
               <p class="suit ', $opponentNum['suit'], '"></p>
               <p class="handValue"></p>
             </div>
           </div>';
+    }
   }
 } elseif($gameend == true){
   foreach($opponent as $opponentNum){
+    if($opponentNum === reset($opponent)) {
+      echo '<div class="handwrap">
+        <div class="hand">
+          <p class="suit ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
+          <p class="handValue">', $opponentNum['num'], '</p>
+        </div>
+      </div>';
+    } else {
     echo '<div class="handwrap">
             <div class="resulthand">
               <p class="suit ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
               <p class="handValueRe">', $opponentNum['num'], '</p>
             </div>
           </div>';
+    }
   }
 }
 ?>

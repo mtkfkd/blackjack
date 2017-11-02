@@ -172,6 +172,9 @@ btn,result
   color: #fff;
   text-align: center;
 }
+.result{
+  text-align: center;
+}
 .blackjack {
   background: #333;
   border-radius: 4px;

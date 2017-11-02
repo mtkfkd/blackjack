@@ -122,10 +122,10 @@ if($gameend == false && $pTotal < 21 && $oTotal < 21){
   $message = '<h2 class="oblackjack">相手がBlack Jack!!<br>あなたの負け</h2>' . PHP_EOL;
   $gameend = true;
 } elseif($pTotal === 21) {
-  $message = '<h1 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
+  $message = '<h2 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
   $gameend = true;
 }  elseif($pTotal === 21 && $oTotal === 21) {
-  $message = '<h1 class="blackjack">両者Black Jack!!<br>Nice Game!!</h2>' . PHP_EOL;
+  $message = '<h2 class="blackjack">両者Black Jack!!<br>Nice Game!!</h2>' . PHP_EOL;
   $gameend = true;
 } elseif($pTotal > 21 && $oTotal < 21) {
   $message = '<h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;

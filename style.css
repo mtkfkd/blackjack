@@ -11,7 +11,10 @@ hr {
 }
 
 .container {
-  background: linear-gradient(to bottom, rgba(0,110,46,1) 0%,rgba(0,110,46,1) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0,110,46,1) 0%,
+    rgba(0,110,46,1) 100%);
   margin: 0 auto;
 /*  padding: 20px;*/
   width: 100%;
@@ -27,7 +30,11 @@ hr {
 .hand {
   position: relative;
 /*  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);*/
-  background: linear-gradient(to bottom, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgba(200,215,220,1) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(242,245,246,1) 0%,
+    rgba(227,234,237,1) 37%,
+    rgba(200,215,220,1) 100%);
   border-radius: 2px;
   box-shadow: 2px 2px 2px #333;
   border: 1px solid #333;
@@ -49,7 +56,10 @@ hr {
 }
 .resulthand {
   position: relative;
-  background: linear-gradient(to bottom, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgba(200,215,220,1) 100%);
+  background: linear-gradient(to bottom,
+    rgba(242,245,246,1) 0%,
+    rgba(227,234,237,1) 37%,
+    rgba(200,215,220,1) 100%);
   border-radius: 2px;
   box-shadow: 2px 2px 2px #333;
   border: 1px solid #333;
@@ -76,7 +86,11 @@ hr {
     top: -200px;
   }
   70% {
-    background: linear-gradient(to bottom, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgba(200,215,220,1) 100%);
+    background: linear-gradient(
+      to bottom,
+      rgba(242,245,246,1) 0%,
+      rgba(227,234,237,1) 37%,
+      rgba(200,215,220,1) 100%);
 
     top: -100px;
   }
@@ -124,7 +138,12 @@ btn,result
   justify-content: center;
 }
 .btn a {
-  background: linear-gradient(to bottom, rgba(239,197,202,1) 0%,rgba(210,75,90,1) 50%,rgba(186,39,55,1) 51%,rgba(241,142,153,1) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(239,197,202,1) 0%,
+    rgba(210,75,90,1) 50%,
+    rgba(186,39,55,1) 51%,
+    rgba(241,142,153,1) 100%);
   border-radius: 4px;
   color: #fff;
   display: block;
@@ -138,7 +157,12 @@ btn,result
   transition: all 200ms linear;
 }
 .btn a:hover {
-  background: linear-gradient(to bottom, rgba(239,215,210,0.9) 0%,rgba(210,85,98,0.9) 50%,rgba(186,50,65,0.9) 51%,rgba(241,150,163,0.9) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(239,215,210,0.9) 0%,
+    rgba(210,85,98,0.9) 50%,
+    rgba(186,50,65,0.9) 51%,
+    rgba(241,150,163,0.9) 100%);
   box-shadow: 2px 2px 5px #555;
   color: #000;
   transform: scale(1.1);

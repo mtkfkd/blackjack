@@ -1,4 +1,14 @@
-
+/*==================================
+--- Common ---
+===================================*/
+body,html {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,110,46,1) 0%,
+    rgba(0,110,46,1) 100%);
+  margin: 0;
+  padding: 0;
+}
 p {
   margin: 0;
   padding: 0;
@@ -11,16 +21,78 @@ hr {
 }
 
 .container {
+/*
   background: linear-gradient(
     to bottom,
     rgba(0,110,46,1) 0%,
     rgba(0,110,46,1) 100%);
+*/
   margin: 0 auto;
 /*  padding: 20px;*/
   width: 100%;
   height: 100%;
 }
 
+/*==================================
+--- Index ---
+===================================*/
+.title {
+  text-align: center;
+  color: #111;
+  text-shadow: 0 0 10px #fff,0 0 15px #fff;
+  font-size: 10em;
+  animation: textlight 5s linear 0s 5;
+}
+
+@keyframes textlight {
+  0% {
+    text-shadow: 0 0 10px #fff,0 0 15px #fff;
+  }
+  20% {
+    text-shadow: 0 0 20px #ea6077,0 0 15px #ea6077;
+  }
+  40% {
+    text-shadow: 0 0 10px #ccff60,0 0 15px #ccff60;
+  }
+  60% {
+    text-shadow: 0 0 20px #6060ea,0 0 15px #6060ea;
+  }
+  80% {
+    text-shadow: 0 0 10px #ee50ff,0 0 15px #ee50ff;
+  }
+  100% {
+    text-shadow: 0 0 10px #fff,0 0 15px #fff;
+  }
+}
+
+.start {
+  text-align: center;
+  font-size: 4rem;
+}
+
+.start a {
+/*  background: linear-gradient(to bottom, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); */
+  background: linear-gradient(to bottom, rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
+  border-radius: 6px;
+  color: #909010;
+  display: block;
+  font-weight: bold;
+  width: 400px;
+  margin: 0 auto;
+  padding: 5px 30px;
+  text-decoration: none;
+  transition: all 200ms 0s linear;
+}
+
+.start a:hover {
+  box-shadow: 0 0 10px #ff7075, 0 0 20px #ff7075;
+  text-shadow: 2px 1px 3px #444;
+  font-size: 4.1rem;
+  transform: scale(1.1);
+}
+/*==================================
+--- GameSide ---
+===================================*/
 .handWrapper {
   display: flex;
   justify-content: center;

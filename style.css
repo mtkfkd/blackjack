@@ -71,8 +71,11 @@ hr {
 }
 
 .start a {
-/*  background: linear-gradient(to bottom, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); */
-  background: linear-gradient(to bottom, rgba(169,3,41,1) 0%,rgba(143,2,34,1) 44%,rgba(109,0,25,1) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(169,3,41,1) 0%,
+    rgba(143,2,34,1) 44%,
+    rgba(109,0,25,1) 100%);
   border-radius: 6px;
   color: #909010;
   display: block;
@@ -81,7 +84,7 @@ hr {
   margin: 0 auto;
   padding: 5px 30px;
   text-decoration: none;
-  transition: all 200ms 0s linear;
+  transition: all 100ms 0s linear;
 }
 
 .start a:hover {

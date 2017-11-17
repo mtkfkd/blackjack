@@ -192,6 +192,13 @@ hr {
   text-align: center;
   animation: resultValue 2.5s linear 0s 1;
 }
+.suitRe {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  font-size: 26px;
+  animation: resultValue 2.5s linear 0s 1;
+}
 @keyframes resultValue {
   0%{
     opacity: 0;

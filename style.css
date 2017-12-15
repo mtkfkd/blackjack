@@ -102,6 +102,28 @@ hr {
   margin: 0 auto;
   width: 100%;
 }
+.handWrapperSplit {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 50%;
+}
+.handSplit {
+  border: 2px solid #aaa;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 380px;
+  margin-right: 5px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+.splitValue {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 50%;
+}
 .hand {
   position: relative;
 /*  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);*/
@@ -115,8 +137,8 @@ hr {
   border: 1px solid #333;
   margin-right: 10px;
   margin-top: 10px;
-  height: 200px;
-  width: 120px;
+  height: 180px;
+  width: 100px;
 }
 .opphand {
   position: relative;
@@ -126,8 +148,8 @@ hr {
   border: 1px solid #333;
   margin-right: 10px;
   margin-top: 10px;
-  height: 200px;
-  width: 120px;
+  height: 180px;
+  width: 100px;
 }
 .resulthand {
   position: relative;
@@ -140,8 +162,8 @@ hr {
   border: 1px solid #333;
   margin-right: 10px;
   margin-top: 10px;
-  height: 200px;
-  width: 120px;
+  height: 180px;
+  width: 100px;
   animation: result 3s linear 0s 1;
 }
 @keyframes result {
@@ -182,13 +204,13 @@ hr {
 .handValue {
   color: #333;
   font-size: 50px;
-  margin: 70px 0;
+  margin: 60px 0;
   text-align: center;
 }
 .handValueRe{
   color: #333;
   font-size: 50px;
-  margin: 70px 0;
+  margin: 60px 0;
   text-align: center;
   animation: resultValue 2.5s linear 0s 1;
 }
@@ -265,6 +287,14 @@ btn,result
   text-align: center;
   width: 300px;
   animation: blackjack 3s linear 0s 1;
+}
+.win {
+  background: #333;
+  border-radius: 4px;
+  color: #cc6088;
+  margin: 10px auto;
+  text-align: center;
+  width: 300px;
 }
 .oblackjack {
   background: #333;

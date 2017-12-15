@@ -37,10 +37,12 @@ hr {
 --- Index ---
 ===================================*/
 .title {
-  text-align: center;
   color: #111;
-  text-shadow: 0 0 10px #fff,0 0 15px #fff;
   font-size: 10em;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  text-align: center;
+  text-shadow: 0 0 10px #fff,0 0 15px #fff;
   animation: textlight 5s linear 0s 5;
 }
 
@@ -93,6 +95,36 @@ hr {
   font-size: 4.1rem;
   transform: scale(1.1);
 }
+
+.betClick {
+  border: 1px solid #ccc;
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  margin: 0 auto;
+  text-align: center;
+  width: 300px;
+}
+
+.betClick:hover {
+  box-shadow: 2px 2px 4px #888;
+}
+
+.bet {
+  z-index: 0;
+  background: #52c234;
+  background: linear-gradient(to right, #52c234, #061700);
+  border: 2px solid #006e2e;
+  box-shadow: 1px 1px 4px #aaa;
+  margin: 0 auto;
+  width: 500px;
+  height: 0;
+}
+
+input[type="range"] {
+  
+}
+
 /*==================================
 --- GameSide ---
 ===================================*/

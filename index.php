@@ -4,28 +4,48 @@
   <meta charset="UTF-8">
   <title>ブラックジャック</title>
   <link rel="stylesheet" href="style.css">
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1 class="title">BLACK JACK</h1>
-    <p class="betClick">ベット額を変更</p>
-    <div class="bet">
-      <form action="" method="get">
-        <input type="range" max="50000" min="1000" step="500">
-      </form>
-    </div>
-    <p class="start"><a href="play.php">Game Start</a></p>
+    <form action="play.php" method="post">
+      <p class="betClick">ベット額の変更</p>
+      <div class="bet">
+          <p class="preValue">$<input type="text" name="betValue" id="betValue" value="5000" disabled></p>
+          <input type="hidden" name="betValue" id="betValue2" value="5000">
+          <input type="range" name="bet" id="bet" date-input="betValue"  max="50000" min="1000" step="500" value="5000">
+      </div>
+      <input type="submit" class="start" value="Game Start">
+    </form>
   </div> <!-- /.container -->
   <script>
-    $(window).on("load",function(){
+    ;$(function() {
+      'use strict';
+        var clickflag = 0;
       $('.betClick').click(function(){
-        
-      })
-    }
+        if(clickflag === 0) {
+          $('.bet:not(:animated)').animate({height:'250px',
+                                            padding:'50px 0 0 0'},400);
+          $('#bet:not(:animated)').animate({opacity:'1'});
+          $('#betValue:not(:animated)').animate({opacity:'1'});
+          $('.preValue:not(:animated)').animate({opacity:'1'});
+          clickflag = 1;
+        } else if(clickflag === 1) {
+          $('.bet:not(:animated)').animate({height:'',padding:''},400);
+          $('#bet:not(:animated)').animate({opacity:''});
+          $('#betValue:not(:animated)').animate({opacity:''});
+          $('.preValue:not(:animated)').animate({opacity:''});
+          clickflag = 0;
+        }
+      });
+
+      $('#bet').on('input', function(){
+        var value = $(this).val();
+        $('#betValue').val(value);
+        $('#betValue2').val(value);
+      });
+    });
 
   </script>
 </body>

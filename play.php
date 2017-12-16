@@ -1,5 +1,7 @@
 <?php
 session_start();
+$money = 50000;
+$bet = filter_input(INPUT_POST, "betValue" );
 
 $gameend = false;
 $cards = array();
@@ -17,7 +19,7 @@ if (!isset($_GET['reset'])){
   if (isset($_SESSION['opponent'])){$opponent = $_SESSION['opponent'];};
   if (isset($_SESSION['playerSL'])){$playerSL = $_SESSION['playerSL'];};
   if (isset($_SESSION['playerSR'])){$playerSR = $_SESSION['playerSR'];};
-  if ($_SESSION['split'] === true){$split = $_SESSION['split'];};
+  if (isset($_SESSION['split']) && $_SESSION['split'] === true){$split = $_SESSION['split'];};
 
 }
 

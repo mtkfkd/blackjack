@@ -7,7 +7,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div>
     <h1 class="title">BLACK JACK</h1>
     <form action="play.php" method="post">
       <p class="betClick">ベット額の変更</p>

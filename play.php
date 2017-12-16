@@ -2,6 +2,12 @@
 session_start();
 $money = 50000;
 $bet = filter_input(INPUT_POST, "betValue" );
+if(isset($_POST['betValue'])) {
+  $_SESSION['betValue'] = $bet;
+}
+if(isset($_SESSION['betValue'])) {
+  $bet = $_SESSION['betValue'];
+}
 
 $gameend = false;
 $cards = array();
@@ -149,56 +155,56 @@ function sumupHands($hands)
 $message = null;
 if ($_SESSION['split'] === false) {
     if ($gameend == false && $pTotal < 21 && $oTotal < 21){
-      $message = '<h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
+      $message = '      <h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
     }  elseif (($pTotal < 21 || $pTotal > 21) && $oTotal === 21 && $ocnt === 2) {
-      $message = '<h2 class="oblackjack">相手がBlack Jack!!<br>あなたの負け</h2>' . PHP_EOL;
+      $message = '      <h2 class="oblackjack">相手がBlack Jack!!<br>あなたの負け</h2>' . PHP_EOL;
       $gameend = true;
     } elseif ($pTotal === 21 && $pcnt === 2) {
-      $message = '<h2 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
+      $message = '      <h2 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
       $gameend = true;
     } elseif ($pTotal === 21 && $pcnt > 2) {
-      $message = '<h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;  $gameend = true;
+      $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;  $gameend = true;
     } elseif ($pTotal === 21 && $oTotal === 21) {
-      $message = '<h2 class="blackjack">両者Black Jack!!<br>Nice Game!!</h2>' . PHP_EOL;
+      $message = '      <h2 class="blackjack">両者Black Jack!!<br>Nice Game!!</h2>' . PHP_EOL;
       $gameend = true;
     } elseif ($pTotal > 21 && $oTotal < 21) {
-      $message = '<h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
+      $message = '      <h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
       $gameend = true;
     } elseif ($pTotal > 21 && $oTotal > 21) {
-      $message = '<h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
+      $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
       $gameend = true;
     } elseif ($pTotal < 21 && $oTotal > 21) {
-      $message = '<h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
+      $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
       $gameend = true;
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal < $oTotal) {
-      $message = '<h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの負け</h2>' . PHP_EOL;
+      $message = '      <h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの負け</h2>' . PHP_EOL;
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal == $oTotal) {
-      $message = '<h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
+      $message = '      <h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal > $oTotal) {
-      $message = '<h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
+      $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
     }
 } elseif ($_SESSION['split'] === true) {
     if ($srTotal >= 21 || isset($_GET['standR'])) {
         if ($oTotal > 21 && $slTotal > 21 && $srTotal > 21) {
-            $message = '<h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
+            $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
             $gameend = true;
         } elseif ($oTotal > 21 && ($slTotal <= 21 || $srTotal <= 21)) {
-            $message = '<h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
+            $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
             $gameend = true;
         } elseif ($oTotal <= 21 && $slTotal > 21 && $srTotal > 21) {
-            $message = '<h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
+            $message = '      <h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
             $gameend = true;
-        } elseif ($oTotal == $slTotal && $oTotal== $srTotal) {
-            $message = '<h2 class="burst">あなた:'.$slTotal.'&nbsp;相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
+        } elseif (($oTotal === $slTotal && $srTotal <= $slTotal) || ($oTotal === $srTotal && $srTotal >= $slTotal)) {
+            $message = '      <h2 class="burst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
             $gameend = true;
         } elseif ($oTotal < $slTotal && $oTotal < $srTotal) {
-            $message = '<h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
+            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
             $gameend = true;
         } elseif ($oTotal < $slTotal || $oTotal < $srTotal) {
-            $message = '<h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
+            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
             $gameend = true;
         } elseif ($oTotal > $slTotal && $oTotal > $srTotal) {
-            $message = '<h2 class="burst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの負け</h2>';
+            $message = '      <h2 class="burst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの負け</h2>';
             $gameend = true;
         }
     }
@@ -217,7 +223,7 @@ if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $playe
           <p class="btn"><a href="?hitR">HIT(右)</a></p>';
 } elseif ($gameend == false &&  !isset($_GET['standR']) && !isset($_GET['hitR'])) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
-          <p class="btn"><a href="?hit">HIT</a></p>';
+        <p class="btn"><a href="?hit">HIT</a></p>'.PHP_EOL;
 } elseif ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) {
   $btn = '<p class="btn"><a href="?reset">RESET</a></p>';
 }
@@ -242,41 +248,49 @@ $_SESSION['playerSR'] = $playerSR;
   <meta charset="UTF-8">
   <title>ブラックジャック</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div class="allwrap">
+    <div class="menu">
+      <p class="menubtn">BET</p>
+      <form action="play.php" method="post">
+        <p class="preValue">$<input type="text" name="betValue" id="betValue" value="<?= $bet ?>" disabled></p>
+      <input type="hidden" name="betValue" id="betValue2" value="5000">
+      <input type="range" name="bet" id="bet" date-input="betValue"  max="50000" min="1000" step="500" value="<?= $bet ?>">
+      <input type="submit" class="change" value="変更する">
+      </form>
+    </div>
+    <div class="container">
       <div class="handWrapper">
 <?php
 if ($gameend == false){
   foreach ($opponent as $opponentNum){
     if ($opponentNum === reset($opponent)) {
-      echo '<div class="handwrap">
-        <div class="hand">
+      echo '        <div class="hand">
           <p class="suit ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
           <p class="handValue">', $opponentNum['num'], '</p>
-        </div>
-      </div>';
+        </div>',PHP_EOL;
     } else {
-    echo '<div class="handwrap">
-            <div class="opphand">
-              <p class="suit ', $opponentNum['suit'], '"></p>
-              <p class="handValue"></p>
-            </div>
-          </div>';
+    echo '
+        <div class="opphand">
+          <p class="suit ', $opponentNum['suit'], '"></p>
+          <p class="handValue"></p>
+        </div>',PHP_EOL;
     }
   }
 } elseif ($gameend == true){
   foreach ($opponent as $opponentNum){
     if ($opponentNum === reset($opponent)) {
-      echo '<div class="hand">
+      echo '        <div class="hand">
           <p class="suit ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
           <p class="handValue">', $opponentNum['num'], '</p>
-        </div>';
+        </div>',PHP_EOL;
     } else {
-    echo '  <div class="resulthand">
+    echo '      <div class="resulthand">
               <p class="suitRe ', $opponentNum['suit'], '">', $suit_mark[$opponentNum['suit']], '</p>
               <p class="handValueRe">', $opponentNum['num'], '</p>
-            </div>';
+            </div>',PHP_EOL;
     }
   }
 }
@@ -286,13 +300,13 @@ if ($gameend == false){
 <?php
 if (!isset($_GET['standR']) &&!isset($_GET['split']) && (!isset($_GET['hitL']) && !isset($_GET['standL'])) && !isset($_GET['hitR'])) {
 
-    echo'<div class="handWrapper">',PHP_EOL;
+    echo'      <div class="handWrapper">',PHP_EOL;
 
     foreach ($player as $playerNum){
-      echo '  <div class="hand">
-                <p class="suit ', $playerNum['suit'], '">', $suit_mark[$playerNum['suit']], '</p>
-                <p class="handValue">', $playerNum['num'], '</p>
-              </div>';
+      echo '        <div class="hand">
+          <p class="suit ', $playerNum['suit'], '">', $suit_mark[$playerNum['suit']], '</p>
+          <p class="handValue">', $playerNum['num'], '</p>
+        </div>',PHP_EOL;
     }
 } else {
 //   echo '<pre>';
@@ -333,11 +347,39 @@ if (!isset($_GET['standR']) &&!isset($_GET['split']) && (!isset($_GET['hitL']) &
       </div>
       <div class="result">
   <?php
-    echo $message;
-
+echo $message;
   ?>
       </div><!-- /.result -->
-    </form>
-  </div> <!-- /.container -->
+      </form>
+    </div> <!-- /.container -->
+  </div> <!-- /.allwrap -->
+  <script>
+    ;$(function() {
+      'use strict';
+        var clickflag = 0;
+      $('.menubtn').click(function(){
+        if(clickflag === 0) {
+          $('.menu:not(:animated)').animate({left:'0'},400);
+          $('#bet:not(:animated)').animate({opacity:'1'});
+          $('#betValue:not(:animated)').animate({opacity:'1'});
+          $('.preValue:not(:animated)').animate({opacity:'1'});
+          clickflag = 1;
+        } else if(clickflag === 1) {
+          $('.menu:not(:animated)').animate({left:'-290px'},400);
+          $('#bet:not(:animated)').animate({opacity:''});
+          $('#betValue:not(:animated)').animate({opacity:''});
+          $('.preValue:not(:animated)').animate({opacity:''});
+          clickflag = 0;
+        }
+      });
+
+      $('#bet').on('input', function(){
+        var value = $(this).val();
+        $('#betValue').val(value);
+        $('#betValue2').val(value);
+      });
+    });
+
+  </script>
 </body>
 </html>

@@ -265,6 +265,12 @@ input[type=range]:focus::-ms-fill-upper {
 /*==================================
 --- GameSide ---
 ===================================*/
+.container {
+  margin-left: 0;
+  position: relative;
+  left: -100px;
+  z-index: 0;
+}
 .handWrapper {
   display: flex;
   justify-content: center;
@@ -398,9 +404,67 @@ input[type=range]:focus::-ms-fill-upper {
     opacity: 1;
   }
 }
-/*=======================
-btn,result
-=======================*/
+
+/*==================================
+--- Menu ---
+===================================*/
+.allwrap {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.menu {
+  background: #070000;
+  background: linear-gradient(to right, #070000, #4c0001, #070000);
+  left: -285px;
+  margin: 0;
+  opacity: 0.8;
+  position: relative;
+  height: 300px;
+  width: 350px;
+  z-index: 1;
+}
+.menubtn {
+  background: #070000;
+  background: linear-gradient(to right, #070000, #4c0001, #070000);
+  border: 1px solid #333;
+  border-left: none;
+  border-top: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  position: absolute;
+  padding: 20px 10px;
+  right: -80px;
+  text-align: center;
+  top: 0px;
+  width: 60px;
+  z-index: 2;
+}
+.change {
+  background: linear-gradient(
+    to bottom,
+    rgba(239,197,202,1) 0%,
+    rgba(210,75,90,1) 50%,
+    rgba(186,39,55,1) 51%,
+    rgba(241,142,153,1) 100%);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  margin: 50px auto 0;
+  width: 200px;
+}
+.change:active {
+  color: #22f;
+}
+/*=================================
+--- btn,result ---
+===================================*/
 .btn {
   margin-top: 15px;
   margin-left: 12px;

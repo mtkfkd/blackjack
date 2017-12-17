@@ -95,8 +95,11 @@ hr {
 }
 
 .betClick {
+  background: rgba(180,180,255,0.4);
+  /*
   background: #070000;
   background: linear-gradient(to right, #070000, #4c0001, #070000);
+*/
   border: 1px solid #ccc;
   border-bottom: none;
   border-radius: 5px;
@@ -112,15 +115,16 @@ hr {
 }
 
 .betClick:hover {
-  box-shadow: 2px 2px 4px #888;
   color: #f00;
   text-shadow: 1px 1px 3px #333;
 }
 
 .bet {
-/*  z-index: 0;*/
+  background: rgba(180,180,255,0.4);
+/*
   background: #070000;
   background: linear-gradient(to right, #070000, #4c0001, #070000);
+*/
   border: 1px solid #ccc;
   border-top: none;
   border-radius: 5px;
@@ -269,6 +273,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin-left: 0;
   position: relative;
   left: -100px;
+  top: 70px;
   z-index: 0;
 }
 .handWrapper {
@@ -414,19 +419,28 @@ input[type=range]:focus::-ms-fill-upper {
   height: 100%;
 }
 .menu {
+  background: rgba(180,180,255,0.4);
+/*
   background: #070000;
   background: linear-gradient(to right, #070000, #4c0001, #070000);
+*/
+  box-shadow: 1px 1px 5px #333;
   left: -285px;
   margin: 0;
   opacity: 0.8;
   position: relative;
-  height: 300px;
+  height: 250px;
   width: 350px;
   z-index: 1;
 }
 .menubtn {
+  background: rgba(180,180,255,0.4);
+  box-shadow: 1px 1px 1px #333;
+/*
   background: #070000;
   background: linear-gradient(to right, #070000, #4c0001, #070000);
+*/
+  
   border: 1px solid #333;
   border-left: none;
   border-top: none;
@@ -437,7 +451,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin: 0;
   position: absolute;
   padding: 20px 10px;
-  right: -80px;
+  right: -81px;
   text-align: center;
   top: 0px;
   width: 60px;
@@ -461,6 +475,42 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .change:active {
   color: #22f;
+}
+
+/*==================================
+--- Money ---
+===================================*/
+
+.money {
+  background: rgba(180,180,180,0.1);
+  border: 1px solid #333;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  position: absolute;
+  left: 60px;
+  top: 290px;
+  height: 290px;
+  width: 240px;
+}
+.betmoney {
+}
+.reward {
+  margin-top: 10px;
+}
+.havemoney {
+  margin-top: 10px;
+}
+.valu {
+  border-bottom: 2px solid #caa;
+  border-radius: 10px;
+  display: block;
+  font-size: 1.8rem;
+  margin-top: 0;
+  text-align: center;
+}
+.count {
 }
 /*=================================
 --- btn,result ---

@@ -2,12 +2,9 @@
 session_start();
 $money = 50000;
 $bet = filter_input(INPUT_POST, "betValue" );
-if(isset($_POST['betValue'])) {
-  $_SESSION['betValue'] = $bet;
-}
-if(isset($_SESSION['betValue'])) {
-  $bet = $_SESSION['betValue'];
-}
+
+$result = 0;
+$gamecount = 1;
 
 $gameend = false;
 $cards = array();
@@ -19,17 +16,35 @@ $pcnt = 0;
 $ocnt = 0;
 $split = false;
 
-if (!isset($_GET['reset'])){
-  if (isset($_SESSION['cards'])){$cards = $_SESSION['cards'];};
-  if (isset($_SESSION['player'])){$player = $_SESSION['player'];};
-  if (isset($_SESSION['opponent'])){$opponent = $_SESSION['opponent'];};
-  if (isset($_SESSION['playerSL'])){$playerSL = $_SESSION['playerSL'];};
-  if (isset($_SESSION['playerSR'])){$playerSR = $_SESSION['playerSR'];};
-  if (isset($_SESSION['split']) && $_SESSION['split'] === true){$split = $_SESSION['split'];};
-
+if (!isset($_GET['reset']) && !isset($_GET['next'])){
+  if (isset($_SESSION['cards'])){$cards = $_SESSION['cards'];}
+  if (isset($_SESSION['player'])){$player = $_SESSION['player'];}
+  if (isset($_SESSION['opponent'])){$opponent = $_SESSION['opponent'];}
+  if (isset($_SESSION['playerSL'])){$playerSL = $_SESSION['playerSL'];}
+  if (isset($_SESSION['playerSR'])){$playerSR = $_SESSION['playerSR'];}
+  if (isset($_SESSION['split']) && $_SESSION['split'] === true){$split = $_SESSION['split'];}
+  if (isset($_SESSION['money'])){$money = $_SESSION['money'];}
+  if (isset($_SESSION['gamecount'])){$gamecount = $_SESSION['gamecount'];}
 }
 
-if (isset($_SESSION['cards']) && !isset($_GET['reset'])){
+if (isset($_GET['next'])){
+  if (isset($_SESSION['money'])){$money = $_SESSION['money'];}
+  if (isset($_SESSION['gamecount'])){$gamecount = $_SESSION['gamecount'];}
+  $gamecount += 1;
+}
+
+if(isset($_POST['betValue'])) {
+  if ($bet < $money) {
+      $_SESSION['betValue'] = $bet;
+  } elseif ($bet > $money) {
+      $_SESSION['betValue'] = $money;
+  }
+}
+if(isset($_SESSION['betValue'])) {
+  $bet = $_SESSION['betValue'];
+}
+
+if (!isset($_GET['next']) && isset($_SESSION['cards']) && !isset($_GET['reset'])){
   $cards = $_SESSION['cards'];
 } else {
   $cards = setcards();
@@ -159,53 +174,89 @@ if ($_SESSION['split'] === false) {
     }  elseif (($pTotal < 21 || $pTotal > 21) && $oTotal === 21 && $ocnt === 2) {
       $message = '      <h2 class="oblackjack">相手がBlack Jack!!<br>あなたの負け</h2>' . PHP_EOL;
       $gameend = true;
+      $result = '-$'.$bet;
+      $money -= $bet;
     } elseif ($pTotal === 21 && $pcnt === 2) {
       $message = '      <h2 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
       $gameend = true;
+      $result = '+$'. $bet * 1.5;
+      $money += $bet * 1.5;
     } elseif ($pTotal === 21 && $pcnt > 2) {
       $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;  $gameend = true;
+      $result = '+$'.$bet;
+      $money += $bet;
     } elseif ($pTotal === 21 && $oTotal === 21) {
       $message = '      <h2 class="blackjack">両者Black Jack!!<br>Nice Game!!</h2>' . PHP_EOL;
       $gameend = true;
+      $result = '+$'. $bet * 1.5;
+      $money += $bet * 1.5;
     } elseif ($pTotal > 21 && $oTotal < 21) {
       $message = '      <h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
       $gameend = true;
+      $result = '-$'.$bet;
+      $money -= $bet;
     } elseif ($pTotal > 21 && $oTotal > 21) {
       $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
       $gameend = true;
+      $result = '+-$0';
     } elseif ($pTotal < 21 && $oTotal > 21) {
       $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
       $gameend = true;
+      $result = '+$'.$bet;
+      $money += $bet;
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal < $oTotal) {
       $message = '      <h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの負け</h2>' . PHP_EOL;
+      $result = '-$'.$bet;
+      $money -= $bet;
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal == $oTotal) {
       $message = '      <h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
+      $result = '+-$0';
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal > $oTotal) {
       $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
+      $result = '+$'.$bet;
+      $money += $bet;
     }
 } elseif ($_SESSION['split'] === true) {
     if ($srTotal >= 21 || isset($_GET['standR'])) {
         if ($oTotal > 21 && $slTotal > 21 && $srTotal > 21) {
             $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
             $gameend = true;
+            $result = '+-$0';
         } elseif ($oTotal > 21 && ($slTotal <= 21 || $srTotal <= 21)) {
             $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
             $gameend = true;
+            $result = '+$'.$bet;
+            $money += $bet;
         } elseif ($oTotal <= 21 && $slTotal > 21 && $srTotal > 21) {
             $message = '      <h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
             $gameend = true;
-        } elseif (($oTotal === $slTotal && $srTotal <= $slTotal) || ($oTotal === $srTotal && $srTotal >= $slTotal)) {
+            $result = '-$'.$bet * 2;
+            $money -= $bet * 2;
+        } elseif (($oTotal === $slTotal && ($srTotal <= $slTotal || $srTotal > 21)) || ($oTotal === $srTotal && ($srTotal >= $slTotal || $slTotal > 21))) {
             $message = '      <h2 class="burst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
             $gameend = true;
-        } elseif ($oTotal < $slTotal && $oTotal < $srTotal) {
+            $result = '-$'.$bet;
+            $money -= $bet;
+        } elseif (($oTotal < $slTotal && $slTotal < 22) && ($oTotal < $srTotal && $srTotal < 22)) {
             $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
             $gameend = true;
-        } elseif ($oTotal < $slTotal || $oTotal < $srTotal) {
-            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
-            $gameend = true;
+            $result = '+$'.$bet * 2;
+            $money += $bet * 2;
         } elseif ($oTotal > $slTotal && $oTotal > $srTotal) {
             $message = '      <h2 class="burst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの負け</h2>';
             $gameend = true;
+            $result = '-$'.$bet * 2;
+            $money -= $bet * 2;
+        } elseif (($oTotal < $slTotal && $slTotal < 22 ) || ($oTotal < $srTotal && $srTotal < 22)) {
+            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>'    . PHP_EOL;
+            $gameend = true;
+            $result = '+$'.$bet;
+            $money += $bet;
+        } elseif (($oTotal > $slTotal && $srTotal > 21 ) || ($oTotal > $srTotal && $slTotal > 21)) {
+            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの負け</h2>'    . PHP_EOL;
+            $gameend = true;
+            $result = '-$'.$bet * 2;
+            $money -= $bet * 2;
         }
     }
 }
@@ -224,8 +275,10 @@ if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $playe
 } elseif ($gameend == false &&  !isset($_GET['standR']) && !isset($_GET['hitR'])) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
         <p class="btn"><a href="?hit">HIT</a></p>'.PHP_EOL;
-} elseif ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) {
-  $btn = '<p class="btn"><a href="?reset">RESET</a></p>';
+} elseif (($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount < 10) {
+  $btn = '<p class="btn"><a href="?next">NEXT</a></p>';
+} elseif (($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount >= 10) {
+  $btn = '<p class="btn"><a href="?reset">RESET</a></p>'.PHP_EOL;
 }
 
 $_SESSION['cards'] = $cards;
@@ -233,7 +286,8 @@ $_SESSION['player'] = $player;
 $_SESSION['opponent'] = $opponent;
 $_SESSION['playerSL'] = $playerSL;
 $_SESSION['playerSR'] = $playerSR;
-
+$_SESSION['money'] = $money;
+$_SESSION['gamecount'] = $gamecount;
 
 // echo '<pre>';
 // var_dump($playerSL);
@@ -255,11 +309,19 @@ $_SESSION['playerSR'] = $playerSR;
     <div class="menu">
       <p class="menubtn">BET</p>
       <form action="play.php" method="post">
-        <p class="preValue">$<input type="text" name="betValue" id="betValue" value="<?= $bet ?>" disabled></p>
-      <input type="hidden" name="betValue" id="betValue2" value="5000">
-      <input type="range" name="bet" id="bet" date-input="betValue"  max="50000" min="1000" step="500" value="<?= $bet ?>">
+        <p class="preValue">$<input type="text" name="betValue" id="betValue" value="<?= $bet < $money ? $bet : $money ?>" disabled></p>
+      <input type="hidden" name="betValue" id="betValue2" value="<?= $bet < $money ? $bet : $money ?>">
+      <input type="range" name="bet" id="bet" date-input="betValue"  max="<?= $money ?>" min="1000" step="500" value="<?= $bet < $money ? $bet : $money ?>">
       <input type="submit" class="change" value="変更する">
       </form>
+    </div>
+    <div class="money">
+      <p class="betmoney"><span class="count"><?= $gamecount ?>/10</span><br>ベット<br>
+      <span class="valu">$<?= $bet < $money ? $bet : $money ?></span></p>
+      <p class="reward">結果<br>
+      <span class="valu"><?= $result ?></span></p>
+      <p class="havemoney">所持金<br>
+      <span class="valu">$<?= $money ?></span></p>
     </div>
     <div class="container">
       <div class="handWrapper">
@@ -359,7 +421,7 @@ echo $message;
         var clickflag = 0;
       $('.menubtn').click(function(){
         if(clickflag === 0) {
-          $('.menu:not(:animated)').animate({left:'0'},400);
+          $('.menu:not(:animated)').animate({left:'0',shadow:'5px 5px 3px #333'},400);
           $('#bet:not(:animated)').animate({opacity:'1'});
           $('#betValue:not(:animated)').animate({opacity:'1'});
           $('.preValue:not(:animated)').animate({opacity:'1'});

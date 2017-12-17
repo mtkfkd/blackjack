@@ -26,7 +26,8 @@
       $('.betClick').click(function(){
         if(clickflag === 0) {
           $('.bet:not(:animated)').animate({height:'250px',
-                                            padding:'50px 0 0 0'},400);
+                                            padding:'50px 0 0 0',
+                                            shadow:'1px 1px 3px #333'},400);
           $('#bet:not(:animated)').animate({opacity:'1'});
           $('#betValue:not(:animated)').animate({opacity:'1'});
           $('.preValue:not(:animated)').animate({opacity:'1'});

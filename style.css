@@ -36,6 +36,13 @@ hr {
 /*==================================
 --- Index ---
 ===================================*/
+.index-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.index-rank {
+  margin-left: 50px;
+}
 .title {
   color: #111;
   font-size: 10em;
@@ -76,6 +83,7 @@ hr {
   border: none;
   border-radius: 6px;
   color: #909010;
+  cursor: pointer;
   display: block;
   font-size: 4rem;
   font-weight: bold;
@@ -266,6 +274,84 @@ input[type=range]:focus::-ms-fill-upper {
   background: linear-gradient(to right, #cdd3e7, #4c6e70);
 }
 
+.rankClick {
+  background: rgba(180,180,255,0.4);
+  /*
+  background: #070000;
+  background: linear-gradient(to right, #070000, #4c0001, #070000);
+*/
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  margin: 0 auto;
+  text-align: center;
+  user-select: none;
+  width: 400px;
+}
+
+.rankClick:hover {
+  color: #f00;
+  text-shadow: 1px 1px 3px #333;
+}
+
+.rank {
+  background: rgba(180,180,255,0.4);
+/*
+  background: #070000;
+  background: linear-gradient(to right, #070000, #4c0001, #070000);
+*/
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 5px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  margin: 0 auto 50px;
+  height: 0;
+  width: 400px;
+}
+table {
+  display: none;
+  border-collapse: collapse;
+  border: none;
+  font-size: 20px;
+  opacity: 0;
+  text-align: center;
+  width: 400px;
+}
+table td,
+table th,
+table tr {
+  border: none;
+}
+table th {
+  background-color: crimson;
+  color: aliceblue;
+  text-shadow: 1px 1px 3px #333;
+}
+table td {
+  border-bottom: 1px solid #333;
+  padding: 8px;
+}
+table td.tdrank {
+  color: crimson;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #666;
+}
+table td.tdname {
+  color: antiquewhite;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px #333;
+}
+table td.tdscore {
+  color: lavenderblush;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px #333;
+}
 /*==================================
 --- GameSide ---
 ===================================*/

@@ -377,47 +377,6 @@ $_SESSION['gamecount'] = $gamecount;
       </form>
     </div>
 
-<!--     <div class="ranking">
-      <p class="rankingbtn">RANKING</p>
-      <table border="1">
-        <tr>
-          <th>RANKING</th>
-          <th>NAME</th>
-          <th>SCORE</th>
-        </tr>
-<?php
-try {
-$db = getDb();
-    //SELECT文の実行
-    $stt = $db->prepare(
-      'SELECT
-        @n:=@n+1 AS Ranking,
-        ranking.*
-       FROM
-        ranking,
-       (SELECT @n:=0) AS dummy
-       ORDER BY
-        ranking.score DESC'
-      );
-
-    $stt->execute();
-
-  while ($row = $stt->fetch(PDO::FETCH_ASSOC))
-  {
-?>
-    <tr>
-      <td><?= e($row['Ranking']); ?></td>
-      <td><?= e($row['name']); ?></td>
-      <td><?= e($row['score']); ?></td>
-    </tr>
-<?php
-}
-} catch(PDOException $e) {
-    echo "エラーメッセージ: {$e->getMessage()}";
-}
-?>
-    </div> -->
-
     <div class="money">
       <p class="betmoney"><span class="count"><?= $gamecount ?>/10</span><br>ベット<br>
       <span class="valu">$<?= $bet ?></span></p>

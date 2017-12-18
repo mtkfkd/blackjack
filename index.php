@@ -9,7 +9,7 @@
 <body>
   <div>
     <h1 class="title">BLACK JACK</h1>
-    <form action="play.php" method="post">
+    <form action="play.php?reset" method="post">
       <p class="betClick">ベット額の変更</p>
       <div class="bet">
           <p class="preValue">$<input type="text" name="betValue" id="betValue" value="5000" disabled></p>

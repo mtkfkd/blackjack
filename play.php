@@ -1,7 +1,14 @@
 <?php
 session_start();
+require_once 'rank/DbManager.php';
+require_once 'rank/Encode.php';
+
+
+ /**
+ *  必要な変数の初期化
+ **/
 $money = 50000;
-$bet = filter_input(INPUT_POST, "betValue" );
+$bet = (int)filter_input(INPUT_POST, "betValue" );
 
 $result = 0;
 $gamecount = 1;
@@ -15,7 +22,15 @@ $opponent = array();
 $pcnt = 0;
 $ocnt = 0;
 $split = false;
+$btn = null;
+$message = null;
+$ranking = false;
 
+
+ /**
+ *  resetもしくはnextが押されていない場合(hit,stand,splitを押したとき)、
+ *  各変数の値をセッションから取得する。
+ **/
 if (!isset($_GET['reset']) && !isset($_GET['next'])){
   if (isset($_SESSION['cards'])){$cards = $_SESSION['cards'];}
   if (isset($_SESSION['player'])){$player = $_SESSION['player'];}
@@ -27,23 +42,39 @@ if (!isset($_GET['reset']) && !isset($_GET['next'])){
   if (isset($_SESSION['gamecount'])){$gamecount = $_SESSION['gamecount'];}
 }
 
+
+ /**
+ *  nextが押された場合、所持金(money)やゲームカウントを保持する。
+ *  その後ゲームカウントをインクリメント。
+ **/
 if (isset($_GET['next'])){
   if (isset($_SESSION['money'])){$money = $_SESSION['money'];}
   if (isset($_SESSION['gamecount'])){$gamecount = $_SESSION['gamecount'];}
   $gamecount += 1;
 }
 
+
+ /**
+ *  betの値を保持する。
+ *  ひとつ前のbet額が所持金を超過してしまった場合、
+ *  次のベット額を所持金と同じ値にする。
+ **/
 if(isset($_POST['betValue'])) {
-  if ($bet < $money) {
-      $_SESSION['betValue'] = $bet;
-  } elseif ($bet > $money) {
-      $_SESSION['betValue'] = $money;
-  }
+    $_SESSION['betValue'] = $bet;
 }
 if(isset($_SESSION['betValue'])) {
-  $bet = $_SESSION['betValue'];
+    $bet = $_SESSION['betValue'];
+    if ($bet > $money) {
+      $_SESSION['betValue'] = $money;
+      $bet = $money;
+    }
 }
 
+
+ /**
+ *  hit,stand,splitの場合は山札を保持し、
+ *  reset,nextが押された場合は山札を再生成しゲームを再開する。
+ **/
 if (!isset($_GET['next']) && isset($_SESSION['cards']) && !isset($_GET['reset'])){
   $cards = $_SESSION['cards'];
 } else {
@@ -58,6 +89,13 @@ if (!isset($_GET['next']) && isset($_SESSION['cards']) && !isset($_GET['reset'])
   $ocnt = count($opponent);
 }
 
+
+ /**
+ *  hit:山札からカードを一枚取得。
+ *  split:手札を左と右に分ける。
+ *  hitL:split時の左手札を一枚追加。
+ *  hitR:split時の右手札を一枚追加。
+ **/
 if (isset($_GET['hit'])) {
   $player[] = array_shift($cards);
   $pcnt = count($player);
@@ -74,7 +112,14 @@ if (isset($_GET['hitL'])) {
 if (isset($_GET['hitR'])) {
   $playerSR[] = array_shift($cards);
 }
-//相手の行動
+
+
+ /**
+ *  相手の行動パターン
+ *  自分がstandをするか、split時の右手札がburstした場合に行動。
+ *  手持ちが16以下の場合必ずhitする。
+ *  17~19までは1/6の確立でhitする。
+ **/
 if (isset($_GET['stand']) || isset($_GET['standR']) || sumupHands($playerSR) >= 21) {
   while(!$gameend) {
     $random = rand(1,6);
@@ -88,17 +133,24 @@ if (isset($_GET['stand']) || isset($_GET['standR']) || sumupHands($playerSR) >= 
   }
 }
 
-//suitを用意
+
+ /**
+ *  山札の生成関数
+ *  suit_markはsuitsの名称と記号を一致させるためのキー。
+ *  foreachとforで各suit毎に1~13までのカードを生成し、配列cardsに挿入。
+ *  1=A,11=J,12=Q,13=Kとなるように場合分け。
+ *  valueが実際にゲームで使用する際の値。
+ *  numはカードの見た目の数字。
+ *  最後に配列をシャッフルしてリターン。
+ **/
 $suit_mark = array(
   'spade' => '♠',
   'heart' => '❤',
   'diamond' => '♦',
   'club' => '♣',
   );
-//山札を用意
 function setcards()
 {
-$cards = array();
 $suits = array('spade', 'heart', 'diamond', 'club');
   foreach ($suits as $suit) {
     for ($i=1;$i<=13;$i++) {
@@ -139,11 +191,14 @@ $suits = array('spade', 'heart', 'diamond', 'club');
   return $cards;
 }
 
-//echo '<pre>';
-//var_dump($player);
-//echo '</pre>';
 
-//2枚の合計値
+ /**
+ *  手札の合計値を出すための関数
+ *  基本的にはtotalにカードのvalueを足していく。
+ *  Aの場合は1と11都合のいい方で取ることができる。
+ *  aceでAの枚数を数えてtotalに1として足しておく。
+ *  その後、21を超えない場合のみ10を足して11として取る。
+ **/
 $pTotal = sumupHands($player);
 $oTotal = sumupHands($opponent);
 $slTotal = sumupHands($playerSL);
@@ -166,8 +221,10 @@ function sumupHands($hands)
   return $total;
 }
 
-//得点、リザルトメッセージ
-$message = null;
+
+ /**
+ *  得点計算とリザルトのメッセージ表示
+ **/
 if ($_SESSION['split'] === false) {
     if ($gameend == false && $pTotal < 21 && $oTotal < 21){
       $message = '      <h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
@@ -191,12 +248,12 @@ if ($_SESSION['split'] === false) {
       $result = '+$'. $bet * 1.5;
       $money += $bet * 1.5;
     } elseif ($pTotal > 21 && $oTotal < 21) {
-      $message = '      <h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
+      $message = '      <h2 class="burst">××Burst××<br>'.$pTotal.'点'.'<br>あなたの負け</h2>' . PHP_EOL;
       $gameend = true;
       $result = '-$'.$bet;
       $money -= $bet;
     } elseif ($pTotal > 21 && $oTotal > 21) {
-      $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
+      $message = '      <h2 class="burst">両者××Burst××<br>'.$pTotal.'点'.'<br>引き分け</h2>' . PHP_EOL;
       $gameend = true;
       $result = '+-$0';
     } elseif ($pTotal < 21 && $oTotal > 21) {
@@ -225,8 +282,8 @@ if ($_SESSION['split'] === false) {
         } elseif ($oTotal > 21 && ($slTotal <= 21 || $srTotal <= 21)) {
             $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
             $gameend = true;
-            $result = '+$'.$bet;
-            $money += $bet;
+            $result = '+$'.$bet * 2;
+            $money += $bet * 2;
         } elseif ($oTotal <= 21 && $slTotal > 21 && $srTotal > 21) {
             $message = '      <h2 class="burst">××Burst××<br>あなたの負け</h2>' . PHP_EOL;
             $gameend = true;
@@ -260,8 +317,11 @@ if ($_SESSION['split'] === false) {
         }
     }
 }
-//hit,stand,split,resetボタン
-$btn = null;
+
+
+ /**
+ *  状況により表示するボタンのパターン
+ **/
 if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $player[1]['num'] && !isset($_GET['split']) && !isset($_GET['hitL']) && !isset($_GET['standL']) && !isset($_GET['hitR']) && $pcnt ===2) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
           <p class="btn"><a href="?hit">HIT</a></p>
@@ -275,25 +335,25 @@ if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $playe
 } elseif ($gameend == false &&  !isset($_GET['standR']) && !isset($_GET['hitR'])) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
         <p class="btn"><a href="?hit">HIT</a></p>'.PHP_EOL;
-} elseif (($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount < 10) {
+} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount < 10) {
   $btn = '<p class="btn"><a href="?next">NEXT</a></p>';
-} elseif (($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount >= 10) {
+} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount >= 10) {
   $btn = '<p class="btn"><a href="?reset">RESET</a></p>'.PHP_EOL;
+  $ranking = true;
 }
 
+
+ /**
+ *  ゲームに必要な変数をセッションに格納
+ **/
 $_SESSION['cards'] = $cards;
 $_SESSION['player'] = $player;
 $_SESSION['opponent'] = $opponent;
 $_SESSION['playerSL'] = $playerSL;
 $_SESSION['playerSR'] = $playerSR;
 $_SESSION['money'] = $money;
+$_SESSION['betValue'] = $bet;
 $_SESSION['gamecount'] = $gamecount;
-
-// echo '<pre>';
-// var_dump($playerSL);
-// var_dump($playerSR);
-// echo '</pre>';
-
 ?>
 
 <!DOCTYPE html>
@@ -306,26 +366,91 @@ $_SESSION['gamecount'] = $gamecount;
 </head>
 <body>
   <div class="allwrap">
+
     <div class="menu">
       <p class="menubtn">BET</p>
       <form action="play.php" method="post">
-        <p class="preValue">$<input type="text" name="betValue" id="betValue" value="<?= $bet < $money ? $bet : $money ?>" disabled></p>
-      <input type="hidden" name="betValue" id="betValue2" value="<?= $bet < $money ? $bet : $money ?>">
-      <input type="range" name="bet" id="bet" date-input="betValue"  max="<?= $money ?>" min="1000" step="500" value="<?= $bet < $money ? $bet : $money ?>">
+        <p class="preValue">$<input type="text" name="betValue" id="betValue" value="<?= $bet ?>" disabled></p>
+      <input type="hidden" name="betValue" id="betValue2" value="<?= $bet ?>">
+      <input type="range" name="bet" id="bet" date-input="betValue"  max="<?= $money ?>" min="1000" step="500" value="<?= $bet ?>">
       <input type="submit" class="change" value="変更する">
       </form>
     </div>
+
+<!--     <div class="ranking">
+      <p class="rankingbtn">RANKING</p>
+      <table border="1">
+        <tr>
+          <th>RANKING</th>
+          <th>NAME</th>
+          <th>SCORE</th>
+        </tr>
+<?php
+try {
+$db = getDb();
+    //SELECT文の実行
+    $stt = $db->prepare(
+      'SELECT
+        @n:=@n+1 AS Ranking,
+        ranking.*
+       FROM
+        ranking,
+       (SELECT @n:=0) AS dummy
+       ORDER BY
+        ranking.score DESC'
+      );
+
+    $stt->execute();
+
+  while ($row = $stt->fetch(PDO::FETCH_ASSOC))
+  {
+?>
+    <tr>
+      <td><?= e($row['Ranking']); ?></td>
+      <td><?= e($row['name']); ?></td>
+      <td><?= e($row['score']); ?></td>
+    </tr>
+<?php
+}
+} catch(PDOException $e) {
+    echo "エラーメッセージ: {$e->getMessage()}";
+}
+?>
+    </div> -->
+
     <div class="money">
       <p class="betmoney"><span class="count"><?= $gamecount ?>/10</span><br>ベット<br>
-      <span class="valu">$<?= $bet < $money ? $bet : $money ?></span></p>
+      <span class="valu">$<?= $bet ?></span></p>
       <p class="reward">結果<br>
       <span class="valu"><?= $result ?></span></p>
       <p class="havemoney">所持金<br>
       <span class="valu">$<?= $money ?></span></p>
     </div>
+
     <div class="container">
+<?php
+    if ($gamecount >= 10 && $gameend = true) {
+      echo'
+      <div class="rankingform">
+        <form action="Register.php" method="post">
+        <h2>ランキング登録!</h2>
+          <p>Name<br><input type="text" id="rankname" name="name" placeholder="名前を入力"><br>
+          SCORE<br>$<input type="text" id="rankValue" name="score" value="'. $money .'" disabled><br>
+          <input type="hidden" name="score" value="'. $money .'">
+          <input type="submit" value="登録する" id="register"></p>
+        </form>
+      </div>';
+    }
+?>
       <div class="handWrapper">
 <?php
+
+ /**
+ *  相手の手札の表示
+ *  最初のif文はopponent(相手の手札)の一枚目だけ表向きで表示するための記述。elseは裏向き表示。
+ *  その後のelseifはゲーム終了時にすべて表向きにするための記述。
+ *  裏向きだった手札だけアニメーションするために1枚目と2枚目以降で分けている。
+ **/
 if ($gameend == false){
   foreach ($opponent as $opponentNum){
     if ($opponentNum === reset($opponent)) {
@@ -360,7 +485,13 @@ if ($gameend == false){
       </div>
       <hr>
 <?php
-if (!isset($_GET['standR']) &&!isset($_GET['split']) && (!isset($_GET['hitL']) && !isset($_GET['standL'])) && !isset($_GET['hitR'])) {
+
+ /**
+ * 自分の手札の表示
+ * splitしていないときはそのまま表向き表示
+ * split時は手札を二つに分けて表示
+ **/
+if (!$_SESSION['split']) {
 
     echo'      <div class="handWrapper">',PHP_EOL;
 
@@ -371,10 +502,6 @@ if (!isset($_GET['standR']) &&!isset($_GET['split']) && (!isset($_GET['hitL']) &
         </div>',PHP_EOL;
     }
 } else {
-//   echo '<pre>';
-// var_dump($playerSL);
-// var_dump($playerSR);
-// echo '</pre>';
       echo '<div class="splitValue">',PHP_EOL,
       '<h2 class="total">合計:', $slTotal, '点</h2>',PHP_EOL,
       '<h2 class="total">合計:', $srTotal, '点</h2>',PHP_EOL,
@@ -402,7 +529,7 @@ if (!isset($_GET['standR']) &&!isset($_GET['split']) && (!isset($_GET['hitL']) &
   }
 ?>
 
-      </div><!-- /.handWrapper -->
+      </div><!-- /.container -->
 
       <div class="btnwrap">
         <?=$btn?>
@@ -415,6 +542,7 @@ echo $message;
       </form>
     </div> <!-- /.container -->
   </div> <!-- /.allwrap -->
+
   <script>
     ;$(function() {
       'use strict';

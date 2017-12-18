@@ -146,7 +146,7 @@ hr {
   user-select: none;
   width: 200px;
 }
-input[type=text] {
+input[type=text]#betValue {
   background: rgba(24,32,32,0);
   border: none;
   border-radius: 5px;
@@ -419,7 +419,7 @@ input[type=range]:focus::-ms-fill-upper {
   height: 100%;
 }
 .menu {
-  background: rgba(180,180,255,0.4);
+  background: rgba(180,180,255,0.5);
 /*
   background: #070000;
   background: linear-gradient(to right, #070000, #4c0001, #070000);
@@ -434,16 +434,12 @@ input[type=range]:focus::-ms-fill-upper {
   z-index: 1;
 }
 .menubtn {
-  background: rgba(180,180,255,0.4);
+  background: rgba(180,180,255,0.5);
   box-shadow: 1px 1px 1px #333;
-/*
-  background: #070000;
-  background: linear-gradient(to right, #070000, #4c0001, #070000);
-*/
-  
   border: 1px solid #333;
   border-left: none;
   border-top: none;
+  border-bottom-right-radius: 50px;
   color: #fff;
   cursor: pointer;
   font-size: 18px;
@@ -451,11 +447,15 @@ input[type=range]:focus::-ms-fill-upper {
   margin: 0;
   position: absolute;
   padding: 20px 10px;
-  right: -81px;
+  right: -82px;
   text-align: center;
   top: 0px;
   width: 60px;
   z-index: 2;
+}
+.menubtn:hover {
+  color: #f00;
+  text-shadow: 1px 1px 2px #333;
 }
 .change {
   background: linear-gradient(
@@ -470,11 +470,19 @@ input[type=range]:focus::-ms-fill-upper {
   cursor: pointer;
   display: block;
   font-size: 18px;
+  opacity: 1;
   margin: 50px auto 0;
   width: 200px;
+  transition: all 100ms linear;
+}
+.change:hover {
+  box-shadow: 1px 5px #333;
+  transform:translateY(-3px);
 }
 .change:active {
-  color: #22f;
+  color: #333;
+  transform:translateY(1px);
+  box-shadow: none;
 }
 
 /*==================================
@@ -627,4 +635,84 @@ suit
 .heart,
 .diamond {
   color: #f33;
+}
+
+/*==================================
+--- ranking ---
+===================================*/
+.rankingform {
+  background: linear-gradient(to right, #093028, #237a57);
+  border: 1px solid #333;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #555;
+  margin: 0 auto;
+  height: 500px;
+  width: 500px;
+  position: absolute;
+  left: 25%;
+  text-align: center;
+  z-index: 100;
+}
+.rankingform h2 {
+  color: #fff;
+  font-size: 35px;
+  margin: 20px 0 10px;
+  padding: 0;
+}
+.rankingform p {
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  margin: 50px 0;
+  padding: 0;
+}
+#rankname {
+  background: rgba(30,32,32,8);
+  /*border: none;*/
+  border-radius: 5px;
+  color: #fff;
+  display: inline-block;
+  font-size: 25px; 
+  margin: 0 auto 40px;
+  opacity:1;
+  text-align: center;
+  height: 40px;
+  width: 60%;
+}
+input[type=text]#rankValue {
+  background: rgba(24,32,32,0);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: default;
+  display: inline-block;
+  font-size: 28px;
+  margin: 0 auto 50px;
+  opacity:1;
+  text-align: center;
+  height: 40px;
+  width: 40%;
+}
+#register {
+  background: linear-gradient(to right, #d66d75, #e29587);
+  border: 1px solid #a66;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  height: 50px;
+  margin: 15px auto 0;
+  width: 250px;
+  transition: all 100ms linear;
+}
+#register:hover {
+  color: #333;
+  box-shadow: 1px 5px #888;
+  transform:translateY(-3px);
+}
+#register:active {
+  transform:translateY(3px);
+  box-shadow: none;
 }

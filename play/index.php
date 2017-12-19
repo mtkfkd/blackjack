@@ -1,6 +1,6 @@
 <?php
-require_once 'rank/DbManager.php';
-require_once 'rank/Encode.php';
+require_once '../rank/DbManager.php';
+require_once '../rank/Encode.php';
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -8,15 +8,15 @@ require_once 'rank/Encode.php';
   <meta charset="UTF-8">
   <title>ブラックジャック</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body id="playing">
 <p class="soundBtn clicked"><i class="fa fa-volume-up" aria-hidden="true"></i><br><small>ON</small></p>
 <audio preload="none" id="audio" loop>
-  <source src="bgm/casino.mp3">
+  <source src="../bgm/casino.mp3">
 </audio>
- <iframe id="baseFrame" src="indexin.php" width="100%" height="100%" frameborder="0"></iframe>
+ <iframe id="baseFrame" src="play.php?reset" width="100%" height="100%" frameborder="0"></iframe>
 <script>
   ;$(function() {
     'use strict';

@@ -1,3 +1,4 @@
+@charset: 'utf-8';
 /*==================================
 --- Common ---
 ===================================*/
@@ -6,8 +7,13 @@ body,html {
     to bottom,
     rgba(0,110,46,1) 0%,
     rgba(0,110,46,1) 100%);
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
+}
+body#playing {
+  overflow: hidden;
 }
 p {
   margin: 0;
@@ -33,9 +39,58 @@ hr {
   height: 100%;
 }
 
+
 /*==================================
 --- Index ---
 ===================================*/
+.soundBtn {
+  background: rgba(160, 41, 76, 0.4);
+  border: 1px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  line-height: 0;
+  position: fixed;
+  top: 25px;
+  right:25px;
+  text-align: center;
+  width: 60px;
+  height: 60px;
+  transition: all 60ms linear;
+  z-index: 200;
+}
+.soundBtn:hover {
+  animation: sound 0.8s linear 0s 10;
+  box-shadow: 1px 1px 3px #fff;
+/*  transform: translateY(2px);*/
+}
+.soundBtn:active {
+  transform: scale(0.8);
+}
+@keyframes sound {
+  0% {
+    transform: rotate(10deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(10deg);
+  }
+}
+.fa {
+  color: #fff;
+  display: block;
+  font-size: 40px;
+  padding: 5px 5px 5px 7px;
+}
+
 .index-wrapper {
   display: flex;
   justify-content: center;
@@ -312,6 +367,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-top-right-radius: 0px;
   margin: 0 auto 50px;
   height: 0;
+  overflow-y: scroll;
   width: 400px;
 }
 table {
@@ -321,7 +377,7 @@ table {
   font-size: 20px;
   opacity: 0;
   text-align: center;
-  width: 400px;
+  width: 100%;
 }
 table td,
 table th,
@@ -340,7 +396,7 @@ table td {
 table td.tdrank {
   color: crimson;
   font-weight: bold;
-  text-shadow: 1px 1px 1px #666;
+  text-shadow: 1px 1px 1px #daa;
 }
 table td.tdname {
   color: antiquewhite;
@@ -546,10 +602,10 @@ table td.tdscore {
 .change {
   background: linear-gradient(
     to bottom,
-    rgba(239,197,202,1) 0%,
-    rgba(210,75,90,1) 50%,
-    rgba(186,39,55,1) 51%,
-    rgba(241,142,153,1) 100%);
+    rgba(255,197,202,1) 0%,
+    rgba(230,75,90,1) 50%,
+    rgba(206,39,55,1) 51%,
+    rgba(255,142,153,1) 100%);
   border: none;
   border-radius: 4px;
   color: #fff;
@@ -559,7 +615,7 @@ table td.tdscore {
   opacity: 1;
   margin: 50px auto 0;
   width: 200px;
-  transition: all 100ms linear;
+  transition: box-shadow 40ms linear;
 }
 .change:hover {
   box-shadow: 1px 5px #333;
@@ -569,6 +625,20 @@ table td.tdscore {
   color: #333;
   transform:translateY(1px);
   box-shadow: none;
+}
+
+.change.dis {
+  background: linear-gradient(
+  to bottom,
+  rgba(197,202,239,1) 0%,
+  rgba(75,90,210,1) 50%,
+  rgba(39,55,186,1) 51%,
+  rgba(142,153,251,1) 100%);
+  cursor: not-allowed;
+}
+.change.dis:hover {
+  box-shadow: none;
+  transform: none;
 }
 
 /*==================================
@@ -749,7 +819,7 @@ suit
   color: #fff;
   font-size: 28px;
   line-height: 1;
-  margin: 50px 0;
+  margin: 50px 0 0;
   padding: 0;
 }
 #rankname {
@@ -773,7 +843,7 @@ input[type=text]#rankValue {
   cursor: default;
   display: inline-block;
   font-size: 28px;
-  margin: 0 auto 50px;
+  margin: 0 auto 30px;
   opacity:1;
   text-align: center;
   height: 40px;
@@ -789,9 +859,9 @@ input[type=text]#rankValue {
   font-size: 20px;
   font-weight: bold;
   height: 50px;
-  margin: 15px auto 0;
+  margin: 10px auto 0;
   width: 250px;
-  transition: all 100ms linear;
+  transition: box-shadow 70ms linear;
 }
 #register:hover {
   color: #333;
@@ -801,4 +871,22 @@ input[type=text]#rankValue {
 #register:active {
   transform:translateY(3px);
   box-shadow: none;
+}
+.change.no {
+  background: linear-gradient(
+    to right,
+    #666dda,
+    #7895df);
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  height: 30px;
+  width: 230px;
+  margin: 20px auto 0;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.change.no:hover {
+  color: #333;
 }

@@ -17,8 +17,8 @@ try {
     //INSERT命令を実行
     $stt->execute();
 
-    //処理が完了したら、入力フォームにリダイレクトする
-    header('Location: http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/');
+    //処理が完了したら、リダイレクトする
+    header('Location: ./indexin.php');
 } catch (PDOException $e) {
     echo "エラーメッセージ: {$e->getMessage()}";
 }

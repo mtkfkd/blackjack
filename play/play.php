@@ -1,8 +1,7 @@
 <?php
 session_start();
-require_once 'rank/DbManager.php';
-require_once 'rank/Encode.php';
-
+require_once '../rank/DbManager.php';
+require_once '../rank/Encode.php';
 
  /**
  *  必要な変数の初期化
@@ -234,12 +233,13 @@ if ($_SESSION['split'] === false) {
       $result = '-$'.$bet;
       $money -= $bet;
     } elseif ($pTotal === 21 && $pcnt === 2) {
-      $message = '      <h2 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL;
+      $message = '      <h2 class="blackjack">Black Jack!!<br>あなたの勝ち!!</h2>' . PHP_EOL . '<audio src="../bgm/kansei.mp3" autoplay></audio>';
       $gameend = true;
       $result = '+$'. $bet * 1.5;
       $money += $bet * 1.5;
     } elseif ($pTotal === 21 && $pcnt > 2) {
-      $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;  $gameend = true;
+      $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL . '<audio src="../bgm/get.mp3" autoplay></audio>';
+      $gameend = true;
       $result = '+$'.$bet;
       $money += $bet;
     } elseif ($pTotal === 21 && $oTotal === 21) {
@@ -257,7 +257,7 @@ if ($_SESSION['split'] === false) {
       $gameend = true;
       $result = '+-$0';
     } elseif ($pTotal < 21 && $oTotal > 21) {
-      $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
+      $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL . '<audio src="../bgm/get.mp3" autoplay></audio>';
       $gameend = true;
       $result = '+$'.$bet;
       $money += $bet;
@@ -269,7 +269,7 @@ if ($_SESSION['split'] === false) {
       $message = '      <h2 class="burst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>引き分け</h2>' . PHP_EOL;
       $result = '+-$0';
     } elseif ($gameend == true && $pTotal <= 21 && $oTotal <= 21 && $pTotal > $oTotal) {
-      $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
+      $message = '      <h2 class="oburst">あなた:'.$pTotal.'&nbsp;相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL . '<audio src="../bgm/get.mp3" autoplay></audio>';
       $result = '+$'.$bet;
       $money += $bet;
     }
@@ -280,7 +280,7 @@ if ($_SESSION['split'] === false) {
             $gameend = true;
             $result = '+-$0';
         } elseif ($oTotal > 21 && ($slTotal <= 21 || $srTotal <= 21)) {
-            $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL;
+            $message = '      <h2 class="oburst">相手の××Burst××<br>あなたの勝ち!!</h2>' . PHP_EOL . '<audio src="../bgm/get.mp3" autoplay></audio>';
             $gameend = true;
             $result = '+$'.$bet * 2;
             $money += $bet * 2;
@@ -295,7 +295,7 @@ if ($_SESSION['split'] === false) {
             $result = '-$'.$bet;
             $money -= $bet;
         } elseif (($oTotal < $slTotal && $slTotal < 22) && ($oTotal < $srTotal && $srTotal < 22)) {
-            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL;
+            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>' . PHP_EOL . '<audio src="../bgm/get.mp3" autoplay></audio>';
             $gameend = true;
             $result = '+$'.$bet * 2;
             $money += $bet * 2;
@@ -305,7 +305,7 @@ if ($_SESSION['split'] === false) {
             $result = '-$'.$bet * 2;
             $money -= $bet * 2;
         } elseif (($oTotal < $slTotal && $slTotal < 22 ) || ($oTotal < $srTotal && $srTotal < 22)) {
-            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>'    . PHP_EOL;
+            $message = '      <h2 class="oburst">あなた(左):'.$slTotal.'&nbsp;(右):'.$srTotal.'<br>相手:'.$oTotal.'<br>あなたの勝ち</h2>'    . PHP_EOL . '<audio src="../bgm/get.mp3" autoplay></audio>';
             $gameend = true;
             $result = '+$'.$bet;
             $money += $bet;
@@ -335,10 +335,10 @@ if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $playe
 } elseif ($gameend == false &&  !isset($_GET['standR']) && !isset($_GET['hitR'])) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
         <p class="btn"><a href="?hit">HIT</a></p>'.PHP_EOL;
-} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount < 10) {
+} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount <= 10) {
   $btn = '<p class="btn"><a href="?next">NEXT</a></p>';
-} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount >= 10) {
-  $btn = '<p class="btn"><a href="?reset">RESET</a></p>'.PHP_EOL;
+} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount > 10) {
+  $btn = '<p class="btn"><a href="../indexin.php">GAME OVER</a></p>'.PHP_EOL;
   $ranking = true;
 }
 
@@ -361,7 +361,7 @@ $_SESSION['gamecount'] = $gamecount;
 <head>
   <meta charset="UTF-8">
   <title>ブラックジャック</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
@@ -369,34 +369,41 @@ $_SESSION['gamecount'] = $gamecount;
 
     <div class="menu">
       <p class="menubtn">BET</p>
-      <form action="play.php" method="post">
+      <form action="play.php?next" method="post">
         <p class="preValue">$<input type="text" name="betValue" id="betValue" value="<?= $bet ?>" disabled></p>
-      <input type="hidden" name="betValue" id="betValue2" value="<?= $bet ?>">
-      <input type="range" name="bet" id="bet" date-input="betValue"  max="<?= $money ?>" min="1000" step="500" value="<?= $bet ?>">
-      <input type="submit" class="change" value="変更する">
-      </form>
+        <input type="hidden" name="betValue" id="betValue2" value="<?= $bet ?>">
+        <input type="range" name="bet" id="bet" date-input="betValue"  max="<?= $money ?>" min="1000" step="500" value="<?= $bet ?>">
+        <?php if ($gameend == true): ?>
+        <input type="submit" class="change" value="変更する">
+      <?php elseif ($gameend == false): ?>
+<input type="submit" class="change dis" value="変更不可" disabled>
+      <?php endif; ?>
+</form>
     </div>
 
     <div class="money">
-      <p class="betmoney"><span class="count"><?= $gamecount ?>/10</span><br>ベット<br>
+      <p class="betmoney"><span class="count"><?= $gamecount <= 10 ? $gamecount : 10 ?>/10</span><br>ベット<br>
       <span class="valu">$<?= $bet ?></span></p>
       <p class="reward">結果<br>
       <span class="valu"><?= $result ?></span></p>
       <p class="havemoney">所持金<br>
       <span class="valu">$<?= $money ?></span></p>
+      <input type="hidden" id="moneyvalu" value="<?= $money ?>">
     </div>
 
     <div class="container">
+
 <?php
-    if ($gamecount >= 10 && $gameend = true) {
+    if ($gamecount > 10 && $gameend = true) {
       echo'
       <div class="rankingform">
-        <form action="Register.php" method="post">
+        <form action="../Register.php" method="post">
         <h2>ランキング登録!</h2>
           <p>Name<br><input type="text" id="rankname" name="name" placeholder="名前を入力"><br>
           SCORE<br>$<input type="text" id="rankValue" name="score" value="'. $money .'" disabled><br>
           <input type="hidden" name="score" value="'. $money .'">
           <input type="submit" value="登録する" id="register"></p>
+          <a href="../indexin.php" class="change no">登録しない</a>
         </form>
       </div>';
     }
@@ -441,7 +448,8 @@ if ($gameend == false){
   }
 }
 ?>
-      </div>
+      </div><!-- /.handwrapper -->
+
       <hr>
 <?php
 
@@ -487,18 +495,18 @@ if (!$_SESSION['split']) {
       echo '</div>',PHP_EOL;
   }
 ?>
-
-      </div><!-- /.container -->
+      </div><!-- /.handwrapper -->
 
       <div class="btnwrap">
         <?=$btn?>
       </div>
+
       <div class="result">
   <?php
 echo $message;
   ?>
       </div><!-- /.result -->
-      </form>
+
     </div> <!-- /.container -->
   </div> <!-- /.allwrap -->
 
@@ -527,6 +535,12 @@ echo $message;
         $('#betValue').val(value);
         $('#betValue2').val(value);
       });
+      $('#moneyvalu').on('input', function() {
+        var moneyV = $(this).val();
+        for(i=0;i == moneyV;i++) {
+          $('#money').val(moneyV);
+        }
+      })
     });
 
   </script>

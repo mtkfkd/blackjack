@@ -224,7 +224,7 @@ function sumupHands($hands)
  /**
  *  得点計算とリザルトのメッセージ表示
  **/
-if ($_SESSION['split'] === false) {
+if ($_SESSION['split'] === false && !isset($_GET['clear'])) {
     if ($gameend == false && $pTotal < 21 && $oTotal < 21){
       $message = '      <h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
     }  elseif (($pTotal < 21 || $pTotal > 21) && $oTotal === 21 && $ocnt === 2) {
@@ -273,7 +273,7 @@ if ($_SESSION['split'] === false) {
       $result = '+$'.$bet;
       $money += $bet;
     }
-} elseif ($_SESSION['split'] === true) {
+} elseif ($_SESSION['split'] === true && !isset($_GET['clear'])) {
     if ($srTotal >= 21 || isset($_GET['standR'])) {
         if ($oTotal > 21 && $slTotal > 21 && $srTotal > 21) {
             $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
@@ -335,9 +335,11 @@ if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $playe
 } elseif ($gameend == false &&  !isset($_GET['standR']) && !isset($_GET['hitR'])) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
         <p class="btn"><a href="?hit">HIT</a></p>'.PHP_EOL;
-} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount <= 10) {
+} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount < 10) {
   $btn = '<p class="btn"><a href="?next">NEXT</a></p>';
-} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount > 10) {
+} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount == 10) {
+  $btn = '<p class="btn"><a href="?clear">CLEAR</a></p>';
+} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21)) {
   $btn = '<p class="btn"><a href="../indexin.php">GAME OVER</a></p>'.PHP_EOL;
   $ranking = true;
 }
@@ -394,7 +396,7 @@ $_SESSION['gamecount'] = $gamecount;
     <div class="container">
 
 <?php
-    if ($gamecount > 10 && $gameend = true) {
+    if (isset($_GET['clear'])) {
       echo'
       <div class="rankingform">
         <form action="../Register.php" method="post">

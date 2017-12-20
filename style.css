@@ -43,6 +43,7 @@ hr {
 /*==================================
 --- Index ---
 ===================================*/
+
 .soundBtn {
   background: rgba(160, 41, 76, 0.4);
   border: 1px solid #fff;
@@ -94,6 +95,48 @@ hr {
 .index-wrapper {
   display: flex;
   justify-content: center;
+  position: relative;
+}
+.rule {
+  background: rgba(33, 33, 33, 0.9);
+  border-radius: 8px;
+  color: #efe;
+  display: none;
+  width: 500px;
+  height: 30px;
+  overflow: hidden;
+  padding: 10px;
+  position: absolute;
+  top: -850px;
+}
+.ruleTitle {
+  margin: 8px auto;
+  text-align: center;
+}
+.ruleContents {
+  padding: 5px;
+}
+.rule section {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.ruleImp {
+  font-weight: bold;
+  color: #fa9288;
+}
+.ruleClose {
+  border: 1px solid #efe;
+  cursor: pointer;
+  margin-left: auto;
+  text-align: center;
+  width: 150px;
+}
+.ruleClose:hover {
+  color: #fcc;
+  border: 2px solid #fcc;
+}
+.ruleClose:active {
+  transform: scale(0.98);
 }
 .index-rank {
   margin-left: 50px;
@@ -101,8 +144,9 @@ hr {
 .title {
   color: #111;
   font-size: 10em;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: 50px;
+  padding: 0px;
   text-align: center;
   text-shadow: 0 0 10px #fff,0 0 15px #fff;
   animation: textlight 5s linear 0s 5;
@@ -146,7 +190,7 @@ hr {
   padding: 5px 30px;
   text-align: center;
   text-decoration: none;
-  transition: all 100ms 0s linear;
+  transition: all 60ms linear;
   width: 400px;
 }
 
@@ -156,7 +200,9 @@ hr {
   font-size: 4.1rem;
   transform: scale(1.1);
 }
-
+.start:active {
+  transform: scale(1.01);
+}
 .betClick {
   background: rgba(180,180,255,0.4);
   /*
@@ -180,6 +226,9 @@ hr {
 .betClick:hover {
   color: #f00;
   text-shadow: 1px 1px 3px #333;
+}
+.betClick:active {
+  font-size: 1.9rem;
 }
 
 .bet {
@@ -348,12 +397,13 @@ input[type=range]:focus::-ms-fill-upper {
   user-select: none;
   width: 400px;
 }
-
 .rankClick:hover {
   color: #f00;
   text-shadow: 1px 1px 3px #333;
 }
-
+.rankClick:active {
+  font-size: 1.9rem;
+}
 .rank {
   background: rgba(180,180,255,0.4);
 /*
@@ -394,9 +444,9 @@ table td {
   padding: 8px;
 }
 table td.tdrank {
-  color: crimson;
+  color: #ec5068;
   font-weight: bold;
-  text-shadow: 1px 1px 1px #daa;
+  text-shadow: 1px 1px 3px #333;
 }
 table td.tdname {
   color: antiquewhite;
@@ -407,6 +457,22 @@ table td.tdscore {
   color: lavenderblush;
   font-weight: bold;
   text-shadow: 1px 1px 3px #333;
+}
+
+.ruleClick {
+  color: #eef;
+  cursor: pointer;
+  margin: 35px auto 0;
+  padding: 0;
+  text-align: center;
+  width: 180px;
+}
+.ruleClick:hover {
+  color: #fcc;
+  text-shadow: 1px 1px 3px #333;
+}
+.ruleClick:active {
+  transform: scale(0.95);
 }
 /*==================================
 --- GameSide ---

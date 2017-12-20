@@ -15,6 +15,14 @@ body,html {
 body#playing {
   overflow: hidden;
 }
+@media screen and (max-width: 768px) {
+  body#indexin {
+    zoom: 0.5;
+  }
+  body#play {
+    zoom: 0.5;
+  }
+}
 p {
   margin: 0;
   padding: 0;
@@ -43,6 +51,7 @@ hr {
 /*==================================
 --- Index ---
 ===================================*/
+
 .soundBtn {
   background: rgba(160, 41, 76, 0.4);
   border: 1px solid #fff;
@@ -94,15 +103,68 @@ hr {
 .index-wrapper {
   display: flex;
   justify-content: center;
+  position: relative;
 }
+.rule {
+  background: rgba(33, 33, 33, 0.9);
+  border-radius: 8px;
+  color: #efe;
+  display: none;
+  width: 500px;
+  height: 30px;
+  overflow: hidden;
+  padding: 10px;
+  position: absolute;
+  top: -850px;
+}
+/*@media screen and (max-width: 640px) {
+  .rule {
+    overflow-y: scroll;
+  }
+}*/
+
+.ruleTitle {
+  margin: 8px auto;
+  text-align: center;
+}
+.ruleContents {
+  padding: 5px;
+}
+.rule section {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.ruleImp {
+  font-weight: bold;
+  color: #fa9288;
+}
+.ruleClose {
+  border: 1px solid #efe;
+  cursor: pointer;
+  margin: 20px auto;
+  text-align: center;
+  width: 170px;
+}
+
+@media screen and (min-width: 1025px) {
+  .ruleClose:hover {
+    color: #fcc;
+    border: 2px solid #fcc;
+  }
+  .ruleClose:active {
+    transform: scale(0.98);
+  }
+}
+
 .index-rank {
   margin-left: 50px;
 }
 .title {
   color: #111;
   font-size: 10em;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: 50px;
+  padding: 0px;
   text-align: center;
   text-shadow: 0 0 10px #fff,0 0 15px #fff;
   animation: textlight 5s linear 0s 5;
@@ -146,7 +208,7 @@ hr {
   padding: 5px 30px;
   text-align: center;
   text-decoration: none;
-  transition: all 100ms 0s linear;
+  transition: all 60ms linear;
   width: 400px;
 }
 
@@ -156,7 +218,9 @@ hr {
   font-size: 4.1rem;
   transform: scale(1.1);
 }
-
+.start:active {
+  transform: scale(1.01);
+}
 .betClick {
   background: rgba(180,180,255,0.4);
   /*
@@ -180,6 +244,9 @@ hr {
 .betClick:hover {
   color: #f00;
   text-shadow: 1px 1px 3px #333;
+}
+.betClick:active {
+  font-size: 1.9rem;
 }
 
 .bet {
@@ -316,7 +383,6 @@ input[type=range]::-ms-thumb {
   background: #2C3E50;
   background: -webkit-linear-gradient(to right, #FD746C, #2C3E50);
   cursor: pointer;
-  height: 10px;
 }
 input[type=range]:focus::-ms-fill-lower {
   background: #bdc3c7;
@@ -327,6 +393,17 @@ input[type=range]:focus::-ms-fill-upper {
   background: #bdc3c7;
   background: -webkit-linear-gradient(to right, #cdd3e7, #4c6e70);
   background: linear-gradient(to right, #cdd3e7, #4c6e70);
+}
+@media screen and (max-width: 1024px) {
+  input[type=range]::-webkit-slider-thumb {
+    width: 50px;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 50px;
+  }
+  input[type=range]::-ms-thumb {
+    width: 50px;
+  }
 }
 
 .rankClick {
@@ -348,12 +425,13 @@ input[type=range]:focus::-ms-fill-upper {
   user-select: none;
   width: 400px;
 }
-
 .rankClick:hover {
   color: #f00;
   text-shadow: 1px 1px 3px #333;
 }
-
+.rankClick:active {
+  font-size: 1.9rem;
+}
 .rank {
   background: rgba(180,180,255,0.4);
 /*
@@ -394,20 +472,40 @@ table td {
   padding: 8px;
 }
 table td.tdrank {
-  color: crimson;
+  color: rgb(250, 250, 195);
   font-weight: bold;
-  text-shadow: 1px 1px 1px #daa;
+  text-shadow: 1px 1px 3px #333;
 }
 table td.tdname {
-  color: antiquewhite;
+  color: rgb(250, 235, 215);
   font-weight: bold;
   text-shadow: 1px 1px 3px #333;
 }
 table td.tdscore {
-  color: lavenderblush;
+  color: rgb(255, 240, 245);
   font-weight: bold;
   text-shadow: 1px 1px 3px #333;
 }
+
+.ruleClick {
+  color: #eef;
+  cursor: pointer;
+  margin: 35px auto 0;
+  padding: 0;
+  text-align: center;
+  width: 180px;
+}
+
+@media screen and (min-width: 1025px) {
+  .ruleClick:hover {
+    color: #fcc;
+    text-shadow: 1px 1px 3px #333;
+  }
+  .ruleClick:active {
+    transform: scale(0.95);
+  }
+}
+
 /*==================================
 --- GameSide ---
 ===================================*/
@@ -617,16 +715,18 @@ table td.tdscore {
   width: 200px;
   transition: box-shadow 40ms linear;
 }
-.change:hover {
-  box-shadow: 1px 5px #333;
-  transform:translateY(-3px);
-}
-.change:active {
-  color: #333;
-  transform:translateY(1px);
-  box-shadow: none;
-}
 
+@media screen and (min-width: 1025px) {
+  .change:hover {
+    box-shadow: 1px 5px #333;
+    transform:translateY(-3px);
+  }
+  .change:active {
+    color: #333;
+    transform:translateY(1px);
+    box-shadow: none;
+  }
+}
 .change.dis {
   background: linear-gradient(
   to bottom,
@@ -863,14 +963,17 @@ input[type=text]#rankValue {
   width: 250px;
   transition: box-shadow 70ms linear;
 }
-#register:hover {
-  color: #333;
-  box-shadow: 1px 5px #888;
-  transform:translateY(-3px);
-}
-#register:active {
-  transform:translateY(3px);
-  box-shadow: none;
+@media screen and (min-width: 1025px) {
+
+  #register:hover {
+    color: #333;
+    box-shadow: 1px 5px #888;
+    transform:translateY(-3px);
+  }
+  #register:active {
+    transform:translateY(3px);
+    box-shadow: none;
+  }
 }
 .change.no {
   background: linear-gradient(
@@ -886,7 +989,8 @@ input[type=text]#rankValue {
   padding: 10px;
   text-decoration: none;
 }
-
-.change.no:hover {
-  color: #333;
+@media screen and (min-width: 1025px) {
+  .change.no:hover {
+    color: #333;
+  }
 }

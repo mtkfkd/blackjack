@@ -1,8 +1,8 @@
 <?php
 function getDb()
 {
-    $dsn = 'mysql:dbname=blackjack; host=localhost;charset=utf8';
-    $usr = 'root';
+    $dsn = 'mysql:dbname=helloworld_blackjack; host=mysql1.star.ne.jp;charset=utf8';
+    $usr = 'helloworld_bj';
     $password = 'fuku0502';
 
     try

@@ -6,20 +6,51 @@ require_once 'rank/Encode.php';
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ブラックジャック</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
-<body>
+<body id="indexin">
 <!-- <p class="soundBtn clicked"><i class="fa fa-volume-up" aria-hidden="true"></i><br><small>ON</small></p> -->
-<!-- <audio preload="none" id="audio" loop> -->
-  <source src="bgm/casino.mp3">
-</audio>
-  <div>
+
     <h1 class="title">BLACK JACK</h1>
     <form action="play/play.php?reset" method="post">
       <div class="index-wrapper">
+        <div class="rule">
+          <h2 class="ruleTitle">ブラックジャックのルール</h2>
+          <p class="ruleContents">ブラックジャックは、手札の合計を21に近づけるゲームです。<br>より21に近いプレイヤーが勝ちとなります。<br>
+          初めに手札が2枚配られます。<br></p>
+          <section>
+            <p class="ruleContents">
+              <span class="ruleImp">もう一枚カードを引く場合はHIT</span><br>
+              <span class="ruleImp">そのままの手札で勝負する場合はSTAND</span><br>
+            </p>
+          </section>
+          <p class="ruleContents">
+          これらを宣言しながら合計を21に近づけてください。<br>
+          初めの手札が2枚とも同じ数である場合<br>
+          </p>
+          <section>
+            <p class="ruleContents">
+              <span class="ruleImp">あなたはSPLITを宣言することができます</span><br>
+            </p>
+          </section>
+          <p class="ruleContents">
+          SPLITは手札を2つに分け、それぞれに同じ額BETすることで、<br>
+          左手札、右手札それぞれで勝負することが出来ます。
+          </p>
+          <section>
+          <p class="ruleContents">
+            勝った場合は、BETした額を獲得し負けると失います。<br>
+            初めの手札の合計が21だった場合ブラックジャックとなり<br>
+            BETした額の1.5倍の金額を獲得します。<br>
+            10回勝負して、より多くのお金を獲得してください！
+          </p>
+          </section>
+          <p class="ruleClose">ルール説明を閉じる</p>
+        </div>
 
         <div class="index-bet">
           <p class="betClick">ベット額の変更</p>
@@ -77,7 +108,7 @@ $db = getDb();
 
       <input type="submit" class="start" value="Game Start">
     </form>
-  </div>
+    <h3 class="ruleClick">ルールを確認する</h3>
   <script>
     ;$(function() {
       'use strict';
@@ -119,7 +150,6 @@ $db = getDb();
       });
 
       $('.rankClick').click(function(){
-        console.log(rankClick);
         if(rankClick === 0) {
           $('.rank:not(:animated)').animate({height:'280px',
                                             padding:'20px 0 0 0'},400);
@@ -131,6 +161,20 @@ $db = getDb();
           $('table:not(:animated)').animate({opacity:''},function(){$('table').css('display','');});
           rankClick = 0;
         }
+      });
+
+      $('.ruleClick').click(function() {
+        $('.rule').css('display', 'block');
+        $('.rule').animate({top:'-250px'},800, function() {
+          $('.rule').animate({height: '130vh'},600);
+        });
+      });
+      $('.ruleClose').on('click', function() {
+        $('.rule').animate({height:'30px'},600, function() {
+          $('.rule').animate({top:'-800px'},700, function() {
+            $('.rule').css('display', 'none');
+          });
+        });
       });
 
       $('#bet').on('input', function(){

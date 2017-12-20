@@ -117,18 +117,46 @@ hr {
   position: absolute;
   top: -850px;
 }
+<<<<<<< HEAD
 /*@media screen and (max-width: 640px) {
   .rule {
     overflow-y: scroll;
   }
 }*/
 
+=======
+>>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
 .ruleTitle {
   margin: 8px auto;
   text-align: center;
 }
 .ruleContents {
   padding: 5px;
+<<<<<<< HEAD
+=======
+}
+.rule section {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.ruleImp {
+  font-weight: bold;
+  color: #fa9288;
+}
+.ruleClose {
+  border: 1px solid #efe;
+  cursor: pointer;
+  margin-left: auto;
+  text-align: center;
+  width: 150px;
+}
+.ruleClose:hover {
+  color: #fcc;
+  border: 2px solid #fcc;
+}
+.ruleClose:active {
+  transform: scale(0.98);
+>>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
 }
 .rule section {
   margin-top: 5px;
@@ -472,7 +500,11 @@ table td {
   padding: 8px;
 }
 table td.tdrank {
+<<<<<<< HEAD
   color: rgb(250, 250, 195);
+=======
+  color: #ec5068;
+>>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
   font-weight: bold;
   text-shadow: 1px 1px 3px #333;
 }
@@ -495,6 +527,7 @@ table td.tdscore {
   text-align: center;
   width: 180px;
 }
+<<<<<<< HEAD
 
 @media screen and (min-width: 1025px) {
   .ruleClick:hover {
@@ -506,6 +539,15 @@ table td.tdscore {
   }
 }
 
+=======
+.ruleClick:hover {
+  color: #fcc;
+  text-shadow: 1px 1px 3px #333;
+}
+.ruleClick:active {
+  transform: scale(0.95);
+}
+>>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
 /*==================================
 --- GameSide ---
 ===================================*/

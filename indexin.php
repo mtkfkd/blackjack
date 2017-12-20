@@ -14,6 +14,12 @@ require_once 'rank/Encode.php';
 </head>
 <body id="indexin">
 <!-- <p class="soundBtn clicked"><i class="fa fa-volume-up" aria-hidden="true"></i><br><small>ON</small></p> -->
+<<<<<<< HEAD
+=======
+<!-- <audio preload="none" id="audio" loop> -->
+  <source src="bgm/casino.mp3">
+</audio>
+>>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
 
     <h1 class="title">BLACK JACK</h1>
     <form action="play/play.php?reset" method="post">
@@ -166,12 +172,21 @@ $db = getDb();
       $('.ruleClick').click(function() {
         $('.rule').css('display', 'block');
         $('.rule').animate({top:'-250px'},800, function() {
+<<<<<<< HEAD
           $('.rule').animate({height: '130vh'},600);
         });
       });
       $('.ruleClose').on('click', function() {
         $('.rule').animate({height:'30px'},600, function() {
           $('.rule').animate({top:'-800px'},700, function() {
+=======
+          $('.rule').animate({height: '500px'},600);
+        });
+      });
+      $('.ruleClose').click(function() {
+        $('.rule').animate({height:'30px'},600, function() {
+          $('.rule').animate({top:'-850px'},700, function() {
+>>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
             $('.rule').css('display', 'none');
           });
         });

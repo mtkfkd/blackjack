@@ -15,6 +15,9 @@ body,html {
 body#playing {
   overflow: hidden;
 }
+body#indexin {
+  position: relative;
+}
 @media screen and (max-width: 768px) {
   body#indexin {
     zoom: 0.5;
@@ -110,30 +113,34 @@ hr {
   border-radius: 8px;
   color: #efe;
   display: none;
-  width: 500px;
-  height: 30px;
+  font-size: 1.2rem;
+  width: 93vw;
+  height: 0px;
   overflow: hidden;
-  padding: 10px;
+  padding: 40px;
   position: absolute;
-  top: -850px;
+  top: -10vh;
+  text-align: center;
+  z-index: 150;
 }
-<<<<<<< HEAD
-/*@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
+  .rule {
+    top: -15vh;
+    width: 190vw;
+  }
+}
+@media screen and (max-width: 1024px) {
   .rule {
     overflow-y: scroll;
   }
-}*/
+}
 
-=======
->>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
 .ruleTitle {
-  margin: 8px auto;
+  margin: 12px auto 25px;
   text-align: center;
 }
 .ruleContents {
   padding: 5px;
-<<<<<<< HEAD
-=======
 }
 .rule section {
   margin-top: 5px;
@@ -146,32 +153,9 @@ hr {
 .ruleClose {
   border: 1px solid #efe;
   cursor: pointer;
-  margin-left: auto;
+  margin: 30px auto;
   text-align: center;
-  width: 150px;
-}
-.ruleClose:hover {
-  color: #fcc;
-  border: 2px solid #fcc;
-}
-.ruleClose:active {
-  transform: scale(0.98);
->>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
-}
-.rule section {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.ruleImp {
-  font-weight: bold;
-  color: #fa9288;
-}
-.ruleClose {
-  border: 1px solid #efe;
-  cursor: pointer;
-  margin: 20px auto;
-  text-align: center;
-  width: 170px;
+  width: 20%;
 }
 
 @media screen and (min-width: 1025px) {
@@ -240,15 +224,18 @@ hr {
   width: 400px;
 }
 
-.start:hover {
-  box-shadow: 0 0 10px #ff7075, 0 0 20px #ff7075;
-  text-shadow: 2px 1px 3px #444;
-  font-size: 4.1rem;
-  transform: scale(1.1);
+@media screen and (min-width: 1025px) {
+  .start:hover {
+    box-shadow: 0 0 10px #ff7075, 0 0 20px #ff7075;
+    text-shadow: 2px 1px 3px #444;
+    font-size: 4.1rem;
+    transform: scale(1.1);
+  }
+  .start:active {
+    transform: scale(1.01);
+  }
 }
-.start:active {
-  transform: scale(1.01);
-}
+
 .betClick {
   background: rgba(180,180,255,0.4);
   /*
@@ -268,14 +255,16 @@ hr {
   user-select: none;
   width: 400px;
 }
+@media screen and (min-width: 1025px) {
+  .betClick:hover {
+    color: #f00;
+    text-shadow: 1px 1px 3px #333;
+  }
+  .betClick:active {
+    font-size: 1.9rem;
+  }
+}
 
-.betClick:hover {
-  color: #f00;
-  text-shadow: 1px 1px 3px #333;
-}
-.betClick:active {
-  font-size: 1.9rem;
-}
 
 .bet {
   background: rgba(180,180,255,0.4);
@@ -423,14 +412,32 @@ input[type=range]:focus::-ms-fill-upper {
   background: linear-gradient(to right, #cdd3e7, #4c6e70);
 }
 @media screen and (max-width: 1024px) {
+  input[type=range] {
+    margin: 50px auto 0;
+  }
   input[type=range]::-webkit-slider-thumb {
-    width: 50px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
   }
   input[type=range]::-moz-range-thumb {
-    width: 50px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
   }
   input[type=range]::-ms-thumb {
-    width: 50px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 30px;
+  }
+  input[type=range]::-moz-range-track {
+    height: 30px;
+  }
+  input[type=range]::-ms-track {
+    height: 30px;
   }
 }
 
@@ -453,13 +460,17 @@ input[type=range]:focus::-ms-fill-upper {
   user-select: none;
   width: 400px;
 }
-.rankClick:hover {
-  color: #f00;
-  text-shadow: 1px 1px 3px #333;
+
+@media screen and (min-width: 1025px) {
+  .rankClick:hover {
+    color: #f00;
+    text-shadow: 1px 1px 3px #333;
+  }
+  .rankClick:active {
+    font-size: 1.9rem;
+  }
 }
-.rankClick:active {
-  font-size: 1.9rem;
-}
+
 .rank {
   background: rgba(180,180,255,0.4);
 /*
@@ -500,11 +511,7 @@ table td {
   padding: 8px;
 }
 table td.tdrank {
-<<<<<<< HEAD
   color: rgb(250, 250, 195);
-=======
-  color: #ec5068;
->>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
   font-weight: bold;
   text-shadow: 1px 1px 3px #333;
 }
@@ -527,7 +534,6 @@ table td.tdscore {
   text-align: center;
   width: 180px;
 }
-<<<<<<< HEAD
 
 @media screen and (min-width: 1025px) {
   .ruleClick:hover {
@@ -539,15 +545,6 @@ table td.tdscore {
   }
 }
 
-=======
-.ruleClick:hover {
-  color: #fcc;
-  text-shadow: 1px 1px 3px #333;
-}
-.ruleClick:active {
-  transform: scale(0.95);
-}
->>>>>>> 16ee82a822549d9870e755494ec6bfc5452bde07
 /*==================================
 --- GameSide ---
 ===================================*/
@@ -711,7 +708,7 @@ table td.tdscore {
   margin: 0;
   opacity: 0.8;
   position: relative;
-  height: 250px;
+  height: 280px;
   width: 350px;
   z-index: 1;
 }
@@ -735,6 +732,22 @@ table td.tdscore {
   width: 60px;
   z-index: 2;
 }
+
+@media screen and (max-width: 768px) {
+  .menu {
+    left: -500px;
+    padding-left: 60px;
+    padding-right: 60px;
+    width: 540px
+  }
+  .menubtn {
+    font-size: 1.5rem;
+    padding: 60px 25px 30px;
+    right: -172px;
+    height: 100px;
+    width: 120px;
+  }
+}
 .menubtn:hover {
   color: #f00;
   text-shadow: 1px 1px 2px #333;
@@ -754,7 +767,8 @@ table td.tdscore {
   font-size: 18px;
   opacity: 1;
   margin: 50px auto 0;
-  width: 200px;
+  height: 10vh;
+  width: 80%;
   transition: box-shadow 40ms linear;
 }
 

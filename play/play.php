@@ -517,18 +517,26 @@ echo $message;
     ;$(function() {
       'use strict';
         var clickflag = 0;
+        var windowWidth = window.innerWidth;
       $('.menubtn').click(function(){
         if(clickflag === 0) {
-          $('.menu:not(:animated)').animate({left:'0',shadow:'5px 5px 3px #333'},400);
+          $('.menu:not(:animated)').animate({left:'0',shadow:'5px 5px 3px #333'},550);
           $('#bet:not(:animated)').animate({opacity:'1'});
           $('#betValue:not(:animated)').animate({opacity:'1'});
           $('.preValue:not(:animated)').animate({opacity:'1'});
           clickflag = 1;
         } else if(clickflag === 1) {
-          $('.menu:not(:animated)').animate({left:'-290px'},400);
-          $('#bet:not(:animated)').animate({opacity:''});
-          $('#betValue:not(:animated)').animate({opacity:''});
-          $('.preValue:not(:animated)').animate({opacity:''});
+          if (windowWidth > 1024) {
+            $('.menu:not(:animated)').animate({left:'-290px'},400);
+            $('#bet:not(:animated)').animate({opacity:''});
+            $('#betValue:not(:animated)').animate({opacity:''});
+            $('.preValue:not(:animated)').animate({opacity:''});
+          } else if (windowWidth <= 1024) {
+              $('.menu:not(:animated)').animate({left:'-500px'},400);
+              $('#bet:not(:animated)').animate({opacity:''});
+              $('#betValue:not(:animated)').animate({opacity:''});
+              $('.preValue:not(:animated)').animate({opacity:''});
+          }
           clickflag = 0;
         }
       });

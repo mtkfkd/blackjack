@@ -13,7 +13,7 @@ require_once 'rank/Encode.php';
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body id="playing">
-<p class="soundBtn clicked"><i class="fa fa-volume-up" aria-hidden="true"></i><br><small>ON</small></p>
+<p class="soundBtn clicked"><i class="fa fa-volume-off" aria-hidden="true"></i><br><small>ON</small></p>
 <audio preload="none" id="audio" loop>
   <source src="bgm/casino.mp3">
 </audio>
@@ -25,13 +25,13 @@ require_once 'rank/Encode.php';
     $(".soundBtn").click(function(){
       if($(this).hasClass("clicked")){
         $(this).removeClass("clicked")
-        $(this).html('<i class="fa fa-volume-off" aria-hidden="true"></i><br><small>OFF</small>');
+        $(this).html('<i class="fa fa-volume-up" aria-hidden="true"></i><br><small>OFF</small>');
         document.getElementById("audio").currentTime = 0;
         document.getElementById("audio").volume = 0.5;
         document.getElementById("audio").play();
       }else{
         $(this).addClass("clicked");
-        $(this).html('<i class="fa fa-volume-up" aria-hidden="true"></i><br><small>ON</small>');
+        $(this).html('<i class="fa fa-volume-off" aria-hidden="true"></i><br><small>ON</small>');
         document.getElementById("audio").pause();
       }
     });

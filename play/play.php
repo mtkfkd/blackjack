@@ -224,7 +224,7 @@ function sumupHands($hands)
  /**
  *  得点計算とリザルトのメッセージ表示
  **/
-if ($_SESSION['split'] === false) {
+if ($_SESSION['split'] === false && !isset($_GET['clear'])) {
     if ($gameend == false && $pTotal < 21 && $oTotal < 21){
       $message = '      <h2 class="total">合計:' . $pTotal . '</h2>'. PHP_EOL;
     }  elseif (($pTotal < 21 || $pTotal > 21) && $oTotal === 21 && $ocnt === 2) {
@@ -273,7 +273,7 @@ if ($_SESSION['split'] === false) {
       $result = '+$'.$bet;
       $money += $bet;
     }
-} elseif ($_SESSION['split'] === true) {
+} elseif ($_SESSION['split'] === true && !isset($_GET['clear'])) {
     if ($srTotal >= 21 || isset($_GET['standR'])) {
         if ($oTotal > 21 && $slTotal > 21 && $srTotal > 21) {
             $message = '      <h2 class="burst">両者××Burst××<br>引き分け</h2>' . PHP_EOL;
@@ -335,9 +335,11 @@ if ($gameend == false && !isset($_GET['standR']) && $player[0]['num'] === $playe
 } elseif ($gameend == false &&  !isset($_GET['standR']) && !isset($_GET['hitR'])) {
   $btn = '<p class="btn"><a href="?stand">STAND</a></p>
         <p class="btn"><a href="?hit">HIT</a></p>'.PHP_EOL;
-} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount <= 10) {
+} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount < 10) {
   $btn = '<p class="btn"><a href="?next">NEXT</a></p>';
-} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount > 10) {
+} elseif ($money > 0 && ($gameend == true || isset($_GET['standR']) || $srTotal >= 21) && $gamecount == 10) {
+  $btn = '<p class="btn"><a href="?clear">CLEAR</a></p>';
+} elseif ($money <= 0 || ($gameend == true || isset($_GET['standR']) || $srTotal >= 21)) {
   $btn = '<p class="btn"><a href="../indexin.php">GAME OVER</a></p>'.PHP_EOL;
   $ranking = true;
 }
@@ -360,11 +362,12 @@ $_SESSION['gamecount'] = $gamecount;
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ブラックジャック</title>
   <link rel="stylesheet" href="../style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
-<body>
+<body id="play">
   <div class="allwrap">
 
     <div class="menu">
@@ -394,7 +397,7 @@ $_SESSION['gamecount'] = $gamecount;
     <div class="container">
 
 <?php
-    if ($gamecount > 10 && $gameend = true) {
+    if (isset($_GET['clear'])) {
       echo'
       <div class="rankingform">
         <form action="../Register.php" method="post">
@@ -514,18 +517,26 @@ echo $message;
     ;$(function() {
       'use strict';
         var clickflag = 0;
+        var windowWidth = window.innerWidth;
       $('.menubtn').click(function(){
         if(clickflag === 0) {
-          $('.menu:not(:animated)').animate({left:'0',shadow:'5px 5px 3px #333'},400);
+          $('.menu:not(:animated)').animate({left:'0',shadow:'5px 5px 3px #333'},550);
           $('#bet:not(:animated)').animate({opacity:'1'});
           $('#betValue:not(:animated)').animate({opacity:'1'});
           $('.preValue:not(:animated)').animate({opacity:'1'});
           clickflag = 1;
         } else if(clickflag === 1) {
-          $('.menu:not(:animated)').animate({left:'-290px'},400);
-          $('#bet:not(:animated)').animate({opacity:''});
-          $('#betValue:not(:animated)').animate({opacity:''});
-          $('.preValue:not(:animated)').animate({opacity:''});
+          if (windowWidth > 1024) {
+            $('.menu:not(:animated)').animate({left:'-290px'},400);
+            $('#bet:not(:animated)').animate({opacity:''});
+            $('#betValue:not(:animated)').animate({opacity:''});
+            $('.preValue:not(:animated)').animate({opacity:''});
+          } else if (windowWidth <= 1024) {
+              $('.menu:not(:animated)').animate({left:'-500px'},400);
+              $('#bet:not(:animated)').animate({opacity:''});
+              $('#betValue:not(:animated)').animate({opacity:''});
+              $('.preValue:not(:animated)').animate({opacity:''});
+          }
           clickflag = 0;
         }
       });
